@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>HTML Link</title>
+</head>
+<body>
+	<h1 id="top">HTML Link</h1>
+	<!-- <a> : anchor -->
+	<a href="https://www.google.com">구글</a><br>
+	<a href="https://www.naver.com" target="_blank">네이버</a>
+	
+	<hr>
+	
+	<h1>&lt;a&gt; 태그를 이용한 페이지 이동</h1>
+	<a href="#bottom">맨 아랴로</a><br>
+	
+	
+</body>
+</html>
+
+
+
+

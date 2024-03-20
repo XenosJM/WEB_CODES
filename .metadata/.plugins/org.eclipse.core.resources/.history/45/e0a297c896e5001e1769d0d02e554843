@@ -1,0 +1,22 @@
+<!DOCTYPE html><!-- HTML5 사용을 선언 -->
+<html><!-- html 문서 태그 -->
+<head><!-- html 문서의 머리말 영역 정의 -->
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>HTML</h1>
+	<!-- 
+	* HTML(Hyper Text Markup Language) 
+	- 웹 페이지를 생성하기 위한 표준 마크업 언어
+	- 웹 페이지의 구조를 표현
+	- 요소(Element)로 구성
+	- 브라우저(Browser)에 컨텐츠를 표시하는 방법을 가이드
+	- 태그는 쌍으로 이루어지며, 태그의 시작과 끝을 나타냄
+	 -->
+</body>
+</html>
+
+
+
+

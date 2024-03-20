@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CSS</title>
+</head>
+<body>
+	<h1 style="background: lightgreen;">CSS 적용 순서</h1>
+</body>
+</html>

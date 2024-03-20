@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CSS List</title>
+</head>
+<body>
+	<h1>CSS List</h1>
+	<ul>
+	<li>Java</li>
+	<li>HTML</li>
+	<li>CSS</li>
+	<li>JavasCript</li>
+	</ul>
+	<hr>
+	<ul>
+	<li>Java</li>
+	<li>HTML</li>
+	<li>CSS</li>
+	<li>JavasCript</li>
+	</ul>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Output</title>
+</head>
+<body>
+	<h1>자바스크립트 출력방법</h1>
+	<h2>document.write() 함수 사용</h2>
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CSS Table</title>
+</head>
+<body>
+	<h1>CSS Table</h1>
+	<table>
+		<caption style="caption-side: botton">급여</caption>
+		<thead>
+			<tr>
+				<th>월</th>
+				<th>급여액</th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<td>합계</td>
+				<td>330,000</td>
+			</tr>
+		</tfoot>
+	</table>
+
+</body>
+</html>
+
+
+
+

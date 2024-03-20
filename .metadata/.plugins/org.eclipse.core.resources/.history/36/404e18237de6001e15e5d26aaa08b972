@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>HW1</title>
+</head>
+<body>
+	<h1>자바스크립트 단순 계산기</h1>
+	<input type="number" id="xText">
+	<input type="number" id="yText">
+	<button onclick="add()">더하기</button>
+	<button onclick="sub()">빼기</button>
+	<button onclick="multi()">곱하기</button>
+	<button onclick="div()">나누기</button>
+	<div id="output"></div>
+	
+	<script type="text/javascript">
+		function add(){
+			let output = document.getElementById('output');
+			let x = document.getElementById('xText').value;
+			let y = document.getElementById('yText').value;
+			console.log(x);
+			console.log(typeof x);
+			console.log(y);
+			console.log(typeof y);
+			let sum = x+y;
+			output.innerHTML += '합 : ' + sum + '<br>';
+		}
+	
+	</script>
+	
+</body>
+</html>

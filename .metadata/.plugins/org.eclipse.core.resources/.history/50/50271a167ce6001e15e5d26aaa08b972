@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>HW1</title>
+</head>
+<body>
+	<h1>자바스크립트 단순 계산기</h1>
+	<input type="text" id="x">
+	<input type="text" id="y">
+	<button onclick="add()">더하기</button>
+	<button onclick="sub()">빼기</button>
+	<button onclick="multi()">곱하기</button>
+	<button onclick="div()">나누기</button>
+	<div id="output"></div>
+	
+	<script type="text/javascript">
+		function input(){
+			let output = document.getElementById('output');
+			
+		}
+	
+	</script>
+	
+</body>
+</html>

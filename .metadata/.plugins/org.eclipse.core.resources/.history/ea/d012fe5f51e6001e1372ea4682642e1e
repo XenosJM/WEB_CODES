@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style type="text/css">
+a {
+	text-decoration: none;
+	border : 1px solid hotpink;
+	display : inline-block;
+	width: 80px;
+	height: 20px;
+	text-align: center;
+}
+/* pseudo class는 ":예약어" 형식으로 사용 */
+/* 마우스가 a 태그 위에 있을 때*/
+a:hover {
+
+}
+
+</style>
+<title>CSS Link</title>
+</head>
+<body>
+	<h1>CSS Link</h1>
+	<a href="https://www.google.com">구글</a>
+	<a href="https://www.daum.net">다음</a>
+	<a href="https://www.naver.com">네이버</a>
+
+</body>
+</html>
+
+
+

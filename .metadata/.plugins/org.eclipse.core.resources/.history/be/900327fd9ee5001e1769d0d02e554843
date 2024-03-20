@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>style</title>
+</head>
+<body style="background-color : cyan">
+	<h1 style="color : blue; background-color: green;">
+	HTML Style</h1>
+
+</body>
+</html>

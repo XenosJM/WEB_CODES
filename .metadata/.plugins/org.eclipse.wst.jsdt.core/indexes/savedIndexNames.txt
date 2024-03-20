@@ -1,0 +1,10 @@
+INDEX VERSION 1.4+C:\Users\sdedu\Desktop\WEB_CODES\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+2673032134.index
+1604426252.index
+3671726711.index
+2406359011.index
+4265230995.index
+1797970689.index
+1186377084.index
+343925534.index
+1256372234.index

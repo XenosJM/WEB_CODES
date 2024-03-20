@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>HW1</title>
+</head>
+<body>
+	<h1>자바스크립트 단순 계산기</h1>
+	<input type="number" id="xText">
+	<input type="number" id="yText">
+	<button onclick="add()">더하기</button>
+	<button onclick="sub()">빼기</button>
+	<button onclick="multi()">곱하기</button>
+	<button onclick="div()">나누기</button>
+	<button onclick="setDefault">초기화</button>
+	<div id="output"></div>
+
+	<script type="text/javascript">
+		/* 내가 한 방식과 다른 방식
+		let output = document.getElementById('output');
+		let xNum = document.getElementById('xText');
+		let yNum = document.getElementById('yText');
+		위의 값을 함수 안에서 가져와야 하기 때문에
+		
+		let x = xNum.value;
+		let y = tNum.value;
+		이렇게 값을 가져와서
+		x = parseInt(xNum.value);
+		y = parseInt(yNum.value);
+		parseInt 해주면 끝. 코드가 좀더 간결해진다.
+		
+		*/
+		// input 태그의 입력된 값을 가져오기 위해서는
+		// 함수가 실행되는 시점의 value 값을 가져와야 함
+
+		function add() {
+			let output = document.getElementById('output');
+			let x = document.getElementById('xText').value;
+			let y = document.getElementById('yText').value;
+			x = parseInt(x);
+			y = parseInt(y);
+			console.log(x);
+			console.log(typeof x);
+			console.log(y);
+			console.log(typeof y);
+			let sum = x + y;
+			output.innerHTML += '덧셈 : ' + sum + '<br>';
+		}
+
+		function sub() {
+			let output = document.getElementById('output');
+			let x = document.getElementById('xText').value;
+			let y = document.getElementById('yText').value;
+			x = parseInt(x);
+			y = parseInt(y);
+			console.log(x);
+			console.log(typeof x);
+			console.log(y);
+			console.log(typeof y);
+			let sum = x - y;
+			output.innerHTML += '뺄셈 : ' + sum + '<br>';
+		}
+
+		function multi() {
+			let output = document.getElementById('output');
+			let x = document.getElementById('xText').value;
+			let y = document.getElementById('yText').value;
+			x = parseInt(x);
+			y = parseInt(y);
+			console.log(x);
+			console.log(typeof x);
+			console.log(y);
+			console.log(typeof y);
+			let sum = x * y;
+			output.innerHTML += '곱셈 : ' + sum + '<br>';
+		}
+
+		function div() {
+			let output = document.getElementById('output');
+			let x = document.getElementById('xText').value;
+			let y = document.getElementById('yText').value;
+			x = parseInt(x);
+			y = parseInt(y);
+			console.log(x);
+			console.log(typeof x);
+			console.log(y);
+			console.log(typeof y);
+			let sum = x / y;
+			output.innerHTML += '나눗셈 : ' + sum + '<br>';
+		}
+
+		function setDefault() {
+			let output = document.getElementById('output')
+			output.innerHTML = "";
+		}
+	</script>
+
+</body>
+</html>

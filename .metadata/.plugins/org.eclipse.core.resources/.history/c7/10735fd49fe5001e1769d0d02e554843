@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>style</title>
+</head>
+<body style="background-color : #ffe6cc">
+	<h1 style="color : blue; background-color: green;">
+	HTML Style</h1>
+	
+	<div style="background-color: #f0f0f0; 
+	font-family: 궁서체;">
+		<div style="color : orange; font-family: serif">ABCDEFG</div>
+		<div style="color : red; font-family: sans-serif">ABCDEFG</div>
+		<div style="color : purple;">ABCDEFG</div>
+	</div>
+
+</body>
+</html>
+
+

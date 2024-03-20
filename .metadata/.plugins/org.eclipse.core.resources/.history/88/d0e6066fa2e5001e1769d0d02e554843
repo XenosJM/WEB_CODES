@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>HTML List</title>
+</head>
+<body>
+	<!-- 
+		* HTML List
+		- Unordered List : 순서가 없는 리스트
+		- Ordered List : 순서가 있는 리스트
+		- Definition List : 사전식 리스트
+	 -->
+
+</body>
+</html>

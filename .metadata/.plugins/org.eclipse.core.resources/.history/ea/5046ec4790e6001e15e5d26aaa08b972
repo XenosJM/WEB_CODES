@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>For_ex</title>
+</head>
+<body>
+	<h1>구구단</h1>
+	<input type="number" id="intNum">
+	<button onclick="multi()">구구단 계산</button>
+	<button onclick="multiAll()">구구단 전체 계산</button>
+	<button onclick="paintStar()">별 그리기</button>
+	<div id="output"></div>
+	<script type="text/javascript">
+	let output = document.getElementById('output');
+	let iNum = document.getElementById('intNum');
+	
+  	    function multiAll(){
+  	    	for(let x = 2; x <= 9; x++ ){
+  	    		for(let y = 1; y <=9; y++){
+  	    			let sum = x+y;
+  	    			output.innerHTML += sum
+  	    		}
+  	    	}
+  	    }
+  	    
+  	    function multi(){
+	 	let x = iNum.value;
+		for(let y = 1; y <= 9; y++){
+		x = parseInt(x);
+		y = parseInt(y);
+		let sum = (x * y);
+		output.innerHTML += x + '＊' + y + ' = ' + sum + '<br>';
+		
+		}
+  	  }
+	function paintStar(){
+		for(let x = 0; x < 7; x++){
+			for(let j = 0; j < 7; j++){
+				let sum = ((x, j) = '＊');
+				output.innertHTML += sum;
+				
+			}
+		}		
+	}
+		
+		/*
+		0,0 0,1 0,2 0,3 0,4 0,5 0,6 
+		1과 5
+		2와 4
+		3
+		2와 4
+		1과 5
+		
+		
+		*/
+	}
+	
+	
+	</script>
+
+</body>
+</html>

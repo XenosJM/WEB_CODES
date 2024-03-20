@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>For_ex</title>
+</head>
+<body>
+	<h1>구구단</h1>
+	<div id="output"></div>
+	<script type="text/javascript">
+		let output = document.getElementById('output');
+
+		function multi() {
+
+			for (let x = 2; x <= 9; x++) {
+				for (let y = 1; y <= 9; y++) {
+					//x = parseInt(x);
+					//y = parseInt(y);
+					let sum = (x * y);
+					output.innerHTML += x + '＊' + y + ' = ' + sum + '<br>';
+
+				}
+			}
+
+			function star() {
+				for (let x = 0; x < 7; x++) {
+					for (let y = 0; y < 7; y++) {
+						let sum = x + y;
+						if (sum > 0) {
+							output.innerHTML += '＊';
+						}
+					}
+				}
+			}
+			/*
+			x + y = 
+			0, 1, 2, 3, 4, 5, 6
+			1, 2, 0, 0, 0, 6, 7
+			2, 0, 4, 0, 6, 0, 8
+			3, 0, 0, 6, 0, 0, 9
+			4, 0, 6, 0, 8, 0, 10
+			5, 6, 0, 0, 0, 10, 11
+			6, 7, 8, 9, 10, 11, 12
+			
+			
+			1과 5
+			2와 4
+			3
+			2와 4
+			1과 5
+			 */
+		}
+		multi();
+		star();
+	</script>
+
+</body>
+</html>

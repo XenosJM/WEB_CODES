@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Text form</title>
+</head>
+<body>
+	<h1>텍스트 포멧</h1>
+	<p>여기는 기본 단락입니다.</p>
+	<p>여기는 <b>볼드체</b>입니다.</p>
+	<p>여기는 <strong>강조</strong>입니다.</p>
+	<p>여기는 <i>이탤릭체</i>입니다.</p>
+	<p>여기는 <em>강조 이탤릭</em>입니다.</p>
+
+</body>
+</html>
+
+
+
+
+
+
+

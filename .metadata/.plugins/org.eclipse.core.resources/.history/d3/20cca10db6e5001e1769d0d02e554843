@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>HTML input</title>
+</head>
+<body>
+	<h1>여러가지 input type</h1>
+	<!-- form에서 method를 지정하지 않으면 get 방식이 default -->
+</body>
+</html>

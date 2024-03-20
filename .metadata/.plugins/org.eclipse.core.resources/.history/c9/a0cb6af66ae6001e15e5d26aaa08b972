@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Variable</title>
+</head>
+<body>
+	<h1>자바스크립트 변수 선언과 사용</h1>
+	<div id="output"></div>
+	
+	<script type="text/javascript">
+		var output = document.getElementById('output');
+		console.log(output);
+		console.log(typeof output); // typeof : 변수 타입 확인
+		
+	</script>
+
+</body>
+</html>
+
+
+
+

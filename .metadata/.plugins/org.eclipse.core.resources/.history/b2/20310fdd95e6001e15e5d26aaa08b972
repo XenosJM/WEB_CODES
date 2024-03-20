@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>자바스크립트 while문</h1>
+	<div id="output"></div>
+
+	<script type="text/javascript">
+		let output = document.getElementById('output');
+
+		for (let x = 2; x <= 9; x++) {
+			for (let y = 1; y <= 9; y++) {
+				let sum = (x * y);
+				output.innerHTML += x + '＊' + y + ' = ' + sum + '<br>';
+			}
+			output.innerHTML += '<hr>';
+		}
+
+		for (let x = 0; x < 7; x++) {
+			for (let y = 0; y < 7; y++) {
+				if (i == 0 || i == 6 || j == 0 || j == 6) {
+					output.innerHTML += '＊';
+				} else{
+					output.innerHTML += '　';
+				}
+
+			}
+		}
+	</script>
+</body>
+</html>

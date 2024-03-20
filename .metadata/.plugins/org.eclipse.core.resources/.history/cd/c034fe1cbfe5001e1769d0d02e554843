@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<!-- 
+	* CSS의 선택자(selector)
+	1. Element(요소), Tag(태그) 선택자 : HTML 태그
+	2. class : HTML 태그 안에 class 속성의 값
+	3. id : HTML 태그 안에 id 속성의 값
+	 -->
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+

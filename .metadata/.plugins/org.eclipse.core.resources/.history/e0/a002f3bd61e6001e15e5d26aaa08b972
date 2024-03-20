@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Intro</title>
+</head>
+<body>
+	<!-- 
+	* HTML에서 자바스크립트의 역할
+	1. HTML 요소(element)의 내용(content)을 변경
+	2. HTML 요소(element)의 속성(attribute)을 변경
+	3. HTML 요소(element)의 스타일(css)을 변경
+	4. 입력 약식(form)의 데이터 체크
+	
+	* 자바와 자바스크립트의 차이점
+	 
+	
+	 -->
+	
+
+</body>
+</html>
