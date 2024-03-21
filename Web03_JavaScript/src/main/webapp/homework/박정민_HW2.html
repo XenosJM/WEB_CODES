@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>연락처 프로그램</title>
+</head>
+<body>
+	<h1></h1>
+	이름 : <input type='text' id='name'>
+	<br> 
+	연락처 : <input type='text' id='phone'>
+	<br> 
+	이메일 : <input type='text' id='email'>
+	<br>
+	<br>
+
+	<button onclick='input()'>입력</button>
+	<button onclick='selectContact()'>전체검색</button>
+	인덱스 : <input type="number" id='index'>
+	<button onclick='deleteContact()'>삭제</button>
+	<hr>
+	<div id='output'></div>
+	<script type="text/javascript">
+		let output = document.getElementById('output');
+		let getName = document.getElementById('name');
+		let getPhone = document.getElementById('phone');
+		let getEmail = document.getElementById('email');
+		let getIndex = document.getElementById('index');
+		let contactList = [];
+
+		 function input() {
+			
+			 /* function Person(name, age, email){
+					this.name = getName.value;
+					this.phone = getPhone.value;
+					this.email = getEmail.value;
+				}
+			 	 let contact = {
+					'이름' : getName.value,
+					'연락처' : getPhone.value,
+					'이메일' : getEmail.value
+					
+			처음 코드 구상시 사용하려 했던 객체 넣는 방법을 실패한 이유는 위 함수에
+			this부분에 입력받은 이름, 연락처, 이메일이 들어가야하는데,
+			바보같이 입력하기전 값(즉, 빈값)을 먼저 가져와서 넣었기 때문에 값이 계속
+			안들어갔다. 하던대로 선언해서 썻어야하는데 너무 꼬아서 생각을 해버렸다.
+			
+				} */ 
+			
+			let contact = ['이름 = ' + getName.value + ', 연락처 = '
+				+ getPhone.value + ', 이메일 = ' + getEmail.value];
+			contactList.push(contact);
+			output.innerHTML += '연락처 등록: 이름 = ' + getName.value + ', 연락처 = '
+					+ getPhone.value + ', 이메일 = ' + getEmail.value + '<br>'; 
+		}
+
+		function selectContact() {
+			output.innerHTML = '';
+			for (x in contactList) {
+				output.innerHTML += x + '번 : ' + contactList[x] + '<br>';
+			} 
+			/* output.innerHTML +=  contactList + '<br>'; */
+		}
+
+		function deleteContact() {
+			// splice(start, deleteCount) : 
+			// start 위치부터 deletCount만큼의 원소들을 삭제
+			contactList.splice(getIndex.value, 1)
+			output.innerHTML = '';
+			selectContact(); // 사이드 프로젝트때는 잘만 써놓고 이제와서 이 생각을 못한건지 이해가 안감. 다른언어라고 여겨서 그런듯함.
+		}
+	</script>
+
+</body>
+</html>
