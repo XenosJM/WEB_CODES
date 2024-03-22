@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SignUp</title>
+</head>
+<body>
+	<h1>회원 가입 페이지</h1>
+	<div id="output"></div>
+	아이디 :
+	<input id="memberId" type="text" value="필수정보입니다."
+		onmouseOut="setMsg(this)" onmouseOver="erase(this)"
+		onchange="checkId(this)">
+	<br> 비밀번호 :
+	<input id="memberPw" type="password" value="필수정보입니다."
+		onmouseOut="setMsg(this)" onmouseOver="erase(this)"
+		onblur="checkPw(this)">
+	<br> 비밀번호 확인 :
+	<input id="memberCheckPw" type="password" value="필수정보입니다."
+		onmouseOut="setMsg(this)" onmouseOver="erase(this)"
+		onblur="doubleCheckPw(this)">
+	<br> 이름 :
+	<input id="memberName" type="text" value="필수정보입니다."
+		onmouseOut="setMsg(this)" onmouseOver="erase(this)">
+	<br> 생일 :
+	<input id="memberDate" type="date">
+	<br> 이메일 :
+	<input id="memberEmail" type="email" value="필수정보입니다."
+		onmouseOut="setMsg(this)" onmouseOver="erase(this)">
+	<br>
+	<button id="btnSignUp" onclick="signUp()">회원가입</button>
+
+	<script type="text/javascript">
+		/* 	네이버 회원가입 페이지 만들기
+		 공통 특징 : 입력 박스에 데이터가 없으면, '필수정보입니다'를 보여줌
+		 1. 아이디 : 
+		 - 아이디는 5 ~ 20자로 제한합니다. 
+		 - 만약 "test1"를 입력하면, '이미 사용중이거나 탈퇴한 아이디입니다'를 출력
+		 - 위의 경우가 아닌 정상적인 아이디를 입력하면 '멋진 아이디네요!'를 출력
+		 2. 비밀번호
+		 - 비밀번호는 8 ~ 16자로 제한합니다.
+		 - 글자수 제한에 맞게 비밀번호를 입력하면 '가능한 비밀번호'를 출력
+		 3. 비밀번호 재확인
+		 - 비밀번호와 동일한 입력이면 통과
+		 - 비밀번호와 동일하지 않으면 '비밀번호가 일치하지 않습니다' 출력
+		 4. 이름
+		 5. 생년월일 type="date"
+		 6. 이메일 
+		 7. 가입하기(form) */
+		let memberId = document.getElementById('memberId');
+		let memberPw = document.getElementById('memberPw');
+	
+		function erase(input) {			
+			if(input.value == '필수정보입니다.'){
+				input.value = '';
+			}
+		}
+		function setMsg(input){
+			if(input.value == ''){
+			input.value = '필수정보입니다.';
+				
+			}
+		}
+
+		function checkId(input) {
+			if(input.value.length < 5 || input.value.length > 20 ){
+				input.value = '';
+				alert('아이디는 5글자에서 20글자 사이로 만들어주세요.');
+			} else if(input.value == 'test1'){
+				alert('이미 사용중이거나 탈퇴한 아이디입니다');
+			} else {
+				alert('멋진 아이디네요!');
+			}
+		}
+		
+		function checkPw(input) {
+			if(input.value.length < 8 || input.value.length > 16 ){
+				input.value = '';
+				alert('비밀번호는 8 ~ 16자로 제한합니다.');
+			}
+		}
+		function doubleCheckPw(input){
+			if(input.value != memberPw.value){
+				alert('비밀번호가 일치하지 않습니다');
+			}
+		}
+		
+		function signUp(){
+			alert('회원가입이 완료되었습니다.');
+		 }
+	</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
