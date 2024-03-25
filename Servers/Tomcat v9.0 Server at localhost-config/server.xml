@@ -152,7 +152,7 @@
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
-      <Context docBase="Web01_HTML" path="/Web01_HTML" reloadable="true" source="org.eclipse.jst.jee.server:Web01_HTML"/><Context docBase="Web02_CSS" path="/Web02_CSS" reloadable="true" source="org.eclipse.jst.jee.server:Web02_CSS"/><Context docBase="Web03_JavaScript" path="/Web03_JavaScript" reloadable="true" source="org.eclipse.jst.jee.server:Web03_JavaScript"/><Context docBase="MySmallWebProject" path="/MySmallWebProject" reloadable="true" source="org.eclipse.jst.jee.server:MySmallWebProject"/></Host>
+      <Context docBase="Web01_HTML" path="/Web01_HTML" reloadable="true" source="org.eclipse.jst.jee.server:Web01_HTML"/><Context docBase="Web02_CSS" path="/Web02_CSS" reloadable="true" source="org.eclipse.jst.jee.server:Web02_CSS"/><Context docBase="Web03_JavaScript" path="/Web03_JavaScript" reloadable="true" source="org.eclipse.jst.jee.server:Web03_JavaScript"/><Context docBase="MySmallWebProject" path="/MySmallWebProject" reloadable="true" source="org.eclipse.jst.jee.server:MySmallWebProject"/><Context docBase="Web04_Bootstrap" path="/Web04_Bootstrap" reloadable="true" source="org.eclipse.jst.jee.server:Web04_Bootstrap"/><Context docBase="Web05_jQuery" path="/Web05_jQuery" reloadable="true" source="org.eclipse.jst.jee.server:Web05_jQuery"/></Host>
     </Engine>
   </Service>
 </Server>
