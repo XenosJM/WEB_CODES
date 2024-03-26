@@ -21,7 +21,7 @@
 상품목록 선택 박스를 누르면 상품이름과, 상품가격이 3개 뜬다.
 선택박스를 안만들고 div를 빼서 목록으로 먼저 만들어보기.
 이렇게 목록에 나타난 상품을 클릭하면 다른 div창(이하 장바구니)에 추가된다.
-같은 상품을 한번더 클릭하면 alert가 뜬다.
+같은 상품을 한번더 클릭하면 이미 존재하는 상품입니다라는 alert가 뜬다.
 장바구니에 추가된 상품은 상품정보, 가격과 함께 추가 구매를 할수있는 버튼 + - 버튼 두개와 장바구니에서 뺄수있는 x버튼,
 구매수량을 직접 적어 넣을수있는 input창이 장바구니에 추가된다.
 이렇게 추가된 상품이 존재할경우 다른 div창에 상품의 총 가격과 수량이 보이는데 이 창은 + - 버튼이 눌릴 때, 
@@ -68,7 +68,7 @@ input창에 숫자를 입력후 엔터를 누를 때, 상품이 장바구니에�
 	
 	</ul>
 	<hr>
-	장바구니 총합<div>
+	장바구니 총합<div class="list_all">
 	
 	</div>
 	<script type="text/javascript">
@@ -80,39 +80,67 @@ input창에 숫자를 입력후 엔터를 누를 때, 상품이 장바구니에�
 				console.log('optionName : ' + optionName);
 				console.log('optionPrice : ' + optionPrice);
 
-				let optionItem = $('<li class="option_item"></li>');
+				let optionItem = $('<li class="option_item" style="list-style: none;"></li>');
 				let selectOptionName = $('<div class="option_name"></div>');
 				let inputQty = $('<input type="number"><br>');
 				inputQty.val(1);
-				let btnPlus = $('<button>상품 추가</button>');
-				let btnMinus = $('<button>상품 감소</button><br>');
+				let btnPlus = $('<button class="qty_plus">상품 추가</button>');
+				let btnMinus = $('<button class="qty_minus">상품 감소</button><br>');
 				let prodSumOutput = $('<div class="option_price"></div>');
-				let btnCancel = $('<button>상품 제거</button><br>');
+				let btnCancel = $('<button class="prod_del">상품 제거</button><br>');
+				// console.log(selectOptionName.text());
+				// console.log($('.selected_list').find('.option_item .option_name').text());
+				
+				// console.log($('.selected_list').find('.option_name').text());
+				if($('.selected_list').find('.option_name').text().match(optionName)){
+					alert('이미 존재하는 상품입니다.');
+				}else{
 				selectOptionName.text(optionName);
 				prodSumOutput.text(optionPrice);
-				optionItem.append(selectOptionName);
 				optionItem.append(inputQty);
+				optionItem.append(selectOptionName);
 				optionItem.append(btnPlus);
 				optionItem.append(btnMinus);
 				optionItem.append(prodSumOutput);
 				optionItem.append(btnCancel);
 				$('.selected_list').append(optionItem); //  요소 추가
-				
+					
+				};
+				totalSum();
+					
 				btnPlus.click(function(){
 					inputQty.val(parseInt(inputQty.val())+1);
 					prodSumOutput.text(parseInt(inputQty.val()) * parseInt(optionPrice));
+					console.log($('.selected_list').find('.option_price').text());
+					totalSum();
 				});
 				inputQty.change(function(){
 					prodSumOutput.text(parseInt(inputQty.val()) * parseInt(optionPrice));
+					totalSum();
 				});
 				btnMinus.click(function(){
 					inputQty.val(parseInt(inputQty.val())-1);
 					prodSumOutput.text(parseInt(inputQty.val()) * parseInt(optionPrice));
+					totalSum();
 				});
-				btnCancel.click(function(){ // 리스트에서 삭제하는데 삭제할때 이름중 매칭되는게 있다면 삭제
-					$('.selected_list li').empty();
+				btnCancel.click(function(){ // 부모요소 삭제
+				// console.log($('.prod_del').parent().prop('tagName'));
+					$(this).parent().remove();
+					totalSum();
 				});
-				
+				function totalSum(){
+					let totalPrice = 0;
+					$('.selected_list .option_price').each(function(index, element){
+						//console.log('priceVal : '+priceVal);
+						let price = parseInt($(element).text());
+						console.log(index);
+						console.log(element);
+						console.log('price : '+ price);	
+						totalPrice += price;
+					});
+					console.log('totalPrice : ' + totalPrice);
+					$('.list_all').text(totalPrice);
+				};
 			}); // item_list.on();
 		}); // 둥 document()
 	
