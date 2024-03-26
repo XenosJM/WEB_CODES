@@ -38,7 +38,7 @@ input창에 숫자를 입력후 엔터를 누를 때, 상품이 장바구니에�
 	<div>
 		<ul class="item_list">
 			<li>
-				<div class="info" >
+				<div class="info">
 					<strong>호두</strong>
 					<div class="price">
 						<span class="val">1000</span>
@@ -64,30 +64,37 @@ input창에 숫자를 입력후 엔터를 누를 때, 상품이 장바구니에�
 		</ul>
 	</div>
 	<hr>
-	장바구니<ul class="selected_list">
-	
-	</ul>
-	<hr>
-	장바구니 총합<div class="list_all">
-	
+	<div>
+		장바구니
+		<ul class="selected_list">
+
+		</ul>
+		<button class="prod_selAll" id="btnSelectAll">전체선택</button>
+		<br>
+		<button class="prod_selDel" id="btnSelectCancel">선택상품 제거</button>
+		<br>
 	</div>
+	<hr>
+	장바구니 총합
+	<div class="list_all"></div>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$('ul').on('click', 'li .info', function() {
-				console.log(this);
+				
 				let optionName = $(this).find('strong').text();
 				let optionPrice = $(this).find('.price .val').text();
-				console.log('optionName : ' + optionName);
-				console.log('optionPrice : ' + optionPrice);
-
-				let optionItem = $('<li class="option_item" style="list-style: none;"></li>');
+				// console.log('optionName : ' + optionName);
+				// console.log('optionPrice : ' + optionPrice);
+				
+				let optionItem = $('<li class="option_item"></li>');
 				let selectOptionName = $('<div class="option_name"></div>');
-				let inputQty = $('<input type="number"><br>');
+				let inputQty = $('<input class="num" type="number"><br>');
 				inputQty.val(1);
 				let btnPlus = $('<button class="qty_plus">상품 추가</button>');
 				let btnMinus = $('<button class="qty_minus">상품 감소</button><br>');
 				let prodSumOutput = $('<div class="option_price"></div>');
 				let btnCancel = $('<button class="prod_del">상품 제거</button><br>');
+				let checkBox = $('<input class="check" type="checkbox">선택<br>');
 				// console.log(selectOptionName.text());
 				// console.log($('.selected_list').find('.option_item .option_name').text());
 				
@@ -95,6 +102,7 @@ input창에 숫자를 입력후 엔터를 누를 때, 상품이 장바구니에�
 				if($('.selected_list').find('.option_name').text().match(optionName)){
 					alert('이미 존재하는 상품입니다.');
 				}else{
+				optionItem.append(checkBox);
 				selectOptionName.text(optionName);
 				prodSumOutput.text(optionPrice);
 				optionItem.append(inputQty);
@@ -104,14 +112,13 @@ input창에 숫자를 입력후 엔터를 누를 때, 상품이 장바구니에�
 				optionItem.append(prodSumOutput);
 				optionItem.append(btnCancel);
 				$('.selected_list').append(optionItem); //  요소 추가
-					
 				};
-				totalSum();
 					
+				totalSum();
 				btnPlus.click(function(){
 					inputQty.val(parseInt(inputQty.val())+1);
 					prodSumOutput.text(parseInt(inputQty.val()) * parseInt(optionPrice));
-					console.log($('.selected_list').find('.option_price').text());
+					// console.log($('.selected_list').find('.option_price').text());
 					totalSum();
 				});
 				inputQty.change(function(){
@@ -120,25 +127,57 @@ input창에 숫자를 입력후 엔터를 누를 때, 상품이 장바구니에�
 				});
 				btnMinus.click(function(){
 					inputQty.val(parseInt(inputQty.val())-1);
+					if(inputQty.val() < 0){
+						alert('구매수량은 0보다 낮아질수 없습니다.');
+						inputQty.val(0);
+					} else {
 					prodSumOutput.text(parseInt(inputQty.val()) * parseInt(optionPrice));
 					totalSum();
+					}
 				});
 				btnCancel.click(function(){ // 부모요소 삭제
 				// console.log($('.prod_del').parent().prop('tagName'));
 					$(this).parent().remove();
 					totalSum();
 				});
+				checkBox.click(function(){
+					//console.log(checkBox.is(':checked'));
+				});
+				$('#btnSelectAll').click(function(){
+					// 멍청하게도 위에 체크박스가 클릭될때마다 체크여부를확인하는 코드를 짜놓고도
+					// 어렵게 생각해서 빙빙 돌아가면서 짠 코드
+					/* if($('.selected_list').find('.option_item .check'==true)) { // 체크박스가 체크되어있다면.
+						// 셀렉티드 리스트의 프로퍼티중 체크가 false면 값을 true로 변경하는게 내 의도
+						$('.option_item .check').prop('checked', false);
+					console.log('.check');
+					} else if($('.selected_list').find('.option_item .check'==true)) {
+						$('.option_item .check').prop('checked', true);
+					}; */
+					// 결국 input태그의 클래스가 check인 체크박스의 값의 여부만 알면되기때문에
+					// 체크가 되어있는지만 확인하면 되는걸 깨닫고 변경한 코드
+					if($('.option_item .check').is(':checked')) {
+						$('.option_item .check').prop('checked', false);
+						} else { // 체크박스가 체크되어있다면.
+						$('.option_item .check').prop('checked', true);
+						};
+				});
+				$('#btnSelectCancel').click(function(){
+							//console.log('부모 : ' + $('.check').parent());
+					$('.selected_list').find('.option_item .check:checked').parent().remove();
+							totalSum();
+					});
+				
+				
 				function totalSum(){
 					let totalPrice = 0;
 					$('.selected_list .option_price').each(function(index, element){
-						//console.log('priceVal : '+priceVal);
 						let price = parseInt($(element).text());
-						console.log(index);
-						console.log(element);
-						console.log('price : '+ price);	
+						// console.log(index);
+						// console.log(element);
+						// console.log('price : '+ price);
 						totalPrice += price;
 					});
-					console.log('totalPrice : ' + totalPrice);
+					// console.log('totalPrice : ' + totalPrice);
 					$('.list_all').text(totalPrice);
 				};
 			}); // item_list.on();
