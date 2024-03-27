@@ -6,7 +6,9 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
+		<item key="selection" value="btnSelectAll"/>
 		<list key="findhistory">
+			<item value="btnSelectAll"/>
 			<item value="&apos;연락처 등록: 이름 = &apos; + getName.value + &apos;, 연락처 = &apos;"/>
 		</list>
 		<list key="replacehistory">
