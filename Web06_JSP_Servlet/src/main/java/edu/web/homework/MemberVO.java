@@ -9,6 +9,8 @@ public class MemberVO {
 	- String[] interest; (관심사항은 배열로 변수 선언)
 	- request.getParameterValues() : checkbox로 선택된 여러 개의 데이터를 저장
 	 */
+	
+	// 주의) useBean을 위한 VO를 생성할 경우, parameter name과 변수명이 같아야 함
 	private String userid;
 	private String password; 
 	private String email;
@@ -68,13 +70,26 @@ public class MemberVO {
 	public String[] getInterest() {
 		return interest;
 	}
-
+	
+	public String getInto() {
+//		StringBuilder sb = new StringBuilder(); // concat()이 코드 길이 줄일수있음.
+//		if(interest == null){
+//			return "관심없음";
+//		} else {
+//			for(String result : interest) {
+//				sb.append(result + ", ");
+//			}
+//		}
+//		return sb.toString();  // == ↓
+		return (interest == null) ? "관심없음" : String.join(", ", interest);
+	}
+	
 	public void setInterest(String[] interest) {
 		this.interest = interest;
 	}
 
 	public String getPhone() {
-		return phone;
+		return (phone == null) ? ("값을 입력하지 않았습니다.") : phone;
 	}
 
 	public void setPhone(String phone) {
@@ -82,7 +97,7 @@ public class MemberVO {
 	}
 
 	public String getIntroduce() {
-		return introduce;
+		return (introduce == null) ? ("값을 입력하지 않았습니다.") : introduce;
 	}
 
 	public void setIntroduce(String introduce) {

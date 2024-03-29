@@ -21,25 +21,18 @@
 	- property="*"의 의미 : HW2.jsp에서 넘어온 모든 parameter 값을 member 객체에 저장
 	
 	 --%>
-	 
+	 <% request.setCharacterEncoding("UTF-8"); %>
 	<jsp:useBean id="member" class="edu.web.homework.MemberVO"/>
 	<jsp:setProperty property="*" name="member"/>
-
-	아이디 : <jsp:getProperty name="member" property="userid"/><br>
-	비밀번호 : <jsp:getProperty name="member" property="password"/><br>
-	이메일 : <jsp:getProperty name="member" property="email"/><br>
-	이메일 수신여부 : <jsp:getProperty name="member" property="emailAgree"/><br>
-		<%
-		String[] interest = member.getInterest();
-			if(interest == null){
-				String value = "관심없음";	 %>
-			<p>관심사항 :<%= "관심없음"  %></p>
-		<%} else {
-		for(int i = 0; i < interest.length;i++){ %>
-		<p>관심사항 :<%= interest[i] %></p>
-				<%}} %>
-	핸드폰 : <jsp:getProperty name="member" property="phone"/><br>
-	자기소개 : <jsp:getProperty name="member" property="introduce"/><br>
+	
+	<h2>회원 정보</h2>
+	아이디 : <%= member.getUserid() %><br>
+	비밀번호 : <%= member.getPassword() %><br>
+	이메일 : <%= member.getEmail() %><br>
+	이메일 수신여부 : <%= member.getEmailAgree() %><br>
+	관심사항 : <%= member.getInto() %><br>
+	핸드폰 : <%= member.getPhone() %><br>
+	자기소개 : <%= member.getIntroduce() %><br>
 	
 
 

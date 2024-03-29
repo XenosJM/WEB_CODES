@@ -18,7 +18,10 @@
 		<br><br>
 		<input type="submit" value="전송">
 	</form>
-	
+	<!--
+		input name="parameter 이름" : 전송할 데이터를 인식하는 parameter 이름
+		input value="값" : 전송할 값
+	 -->
 	
 </body>
 </html>
