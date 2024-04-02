@@ -4,5 +4,5 @@
   <module moduleId="org.eclipse.jst.jee.server:Web06_JSP_Servlet" serverId="Tomcat v9.0 Server at localhost"/>
   <module moduleId="org.eclipse.jst.jee.server:Web02_CSS" serverId="Tomcat v9.0 Server at localhost"/>
   <module moduleId="org.eclipse.jst.jee.server:Web05_jQuery" serverId="Tomcat v9.0 Server at localhost"/>
-  <module moduleId="org.eclipse.jst.jee.server:Web01_HTML" serverId="Tomcat v9.0 Server at localhost"/>
+  <module moduleId="org.eclipse.jst.jee.server:Web01_HTML"/>
 </modules>
