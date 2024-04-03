@@ -13,8 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/delete.do")
 public class DeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    MemberDAO dao;
+    
     public DeleteServlet() {
+    	System.out.println("삭제 서블릿 시작");
+    	dao = MemberDAOImple.getInstance();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -22,7 +25,6 @@ public class DeleteServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
 	}
 
 }

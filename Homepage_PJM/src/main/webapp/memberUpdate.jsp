@@ -8,12 +8,8 @@
 </head>
 <body>
 	<%
-		// TODO : 로그인된 사용자 아이디를 저장
-		// TODO : form action="update.do" method="post" 생성
-		// TODO : userid를 제외한 모든 정보 수정 가능하게 input 태그 작성
-		//		  userid는 읽기만 가능하도록 input 태그 작성
+		// TODO 예외, 오류 처리 
 	%>
-	
 	<h2>회원 정보 수정</h2>
     <form action="update.do" method="post">
         <label for="userId">아이디:</label>
@@ -21,8 +17,7 @@
         value="<%=session.getAttribute("userId") %>"><br><br>
         
         <label for="password">비밀번호:</label>
-        <input type="password" id="password" name="password" placeholder="비밀번호 입력" required
-        value="<%=session.getAttribute("password") %>"><br><br>
+        <input type="password" id="password" name="password" placeholder="비밀번호를 변경해주세요." required ><br><br>
         
         <label for="email">이메일:</label>
         <input type="email" id="email" name="email" placeholder="이메일 입력" required value="<%=session.getAttribute("email") %>"><br><br>
