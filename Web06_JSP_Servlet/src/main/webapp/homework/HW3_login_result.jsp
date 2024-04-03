@@ -17,15 +17,16 @@
 	  
 	--%>
 	<%
-	
+		// 세션이 존재여부, 없다면 경고창을 띄우고 로그인 화면으로 이동
 	 if(session.getAttribute("id") == null){
 			out.println("<script>alert('로그인 해주세요!!');</script>");
 			out.print("<script>location.href='HW3.jsp'</script>");		
 	}
 	%>
-	
+	<%-- 로그인 결과창 --%>
 	<h2><%=session.getAttribute("id") %>님, 환영합니다.</h2>
 	
+	<%-- 포스트형식으로 폼을 만들어 로그인 화면으로 리퀘스트 요청 --%>
 	<form action="HW3.jsp" method="POST">
 	<input type="submit" name="logout" value="로그아웃">
 	</form>

@@ -9,4 +9,21 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  
+  <!-- xml은 자바와 같은 공간이지만 설정만을 적용시키기위해 약속한 공간 -->
+  
+  <!-- 필터 설정 -->
+<!--   <filter>
+  	filter-mapping의 filter-name과 일치
+  	<filter-name>TestFilter</filter-name>
+  	<filter-class>web.ch20.filter.TestFilter</filter-class>
+  </filter> -->
+  
+<!--   <filter-mapping>
+  	<filter-name>TestFilter</filter-name>
+  	경로 설정
+  	<url-pattern>/ch20/filterTest.jsp</url-pattern>
+  	<url-pattern>/*</url-pattern> /*은 존재하는 모든 하위 경로
+  	<url-pattern>/member/*</url-pattern>
+  </filter-mapping> -->
 </web-app>
