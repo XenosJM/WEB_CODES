@@ -10,6 +10,10 @@
 	<%
 		String userId = (String) session.getAttribute("userId");
 		// TODO 오류, 예외 처리
+		if(userId == null){
+			out.println("<script>alert('로그인 해주세욧!!');</script>");
+			out.println("<script>location.href='login.jsp'</script>");
+		}
 	%>
 		 <h1><%=userId %>님 환영합니다.</h1>
 		<button onclick="location.href='select.do'">회원정보</button>

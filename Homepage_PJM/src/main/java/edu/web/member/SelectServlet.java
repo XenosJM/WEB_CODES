@@ -1,7 +1,11 @@
 package edu.web.member;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,27 +19,35 @@ import javax.servlet.http.HttpSession;
 public class SelectServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	MemberDAO dao;
-       
-    public SelectServlet() {
-    	System.out.println("셀렉트 서블릿 실행");
-    	dao = MemberDAOImple.getInstance();
-    }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("두겟이 실행");
-		HttpSession session = request.getSession();
-		String userId = (String) session.getAttribute("userId");
-		System.out.println(userId);
-		MemberVO vo = new MemberVO();
-		vo = dao.select(userId);
-		session.setAttribute("회원정보", vo.toString());
-		response.sendRedirect("/Homepage_PJM/memberResult.jsp");
-		
+	public SelectServlet() {
+		System.out.println("셀렉트 서블릿 실행");
+		dao = MemberDAOImple.getInstance();
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
-		System.out.println("둥포스트가 실행");
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		System.out.println("두겟이 실행");
+		HttpSession session = request.getSession();
+		MemberVO vo = dao.select((String) session.getAttribute("userId"));
+		if (session.getAttribute("userId") != null) {
+			if (session.getAttribute("userId").equals(vo.getUserId())) {
+				request.setAttribute("vo", vo.toString());
+				ServletContext context = getServletContext();
+				RequestDispatcher dispatcher = context.getRequestDispatcher("/memberResult.jsp");
+				dispatcher.forward(request, response);
+				
+//				response.sendRedirect("/Homepage_PJM/memberResult.jsp");
+			} else {
+				response.sendRedirect("/Homepage_PJM/login.jsp");
+			}
+		} else {
+			response.sendRedirect("/Homepage_PJM/login.jsp");
+		}
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
+		System.out.println("둥포스트가 실행");		
 	}
 
 }

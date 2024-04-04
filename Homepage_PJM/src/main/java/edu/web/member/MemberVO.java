@@ -88,8 +88,8 @@ public class MemberVO {
 
 	@Override
 	public String toString() {
-		return "MemberVO [userId=" + userId + ", password=" + password + ", email=" + email + ", emailAgree="
-				+ emailAgree + ", interest=" + Arrays.toString(interest) + ", phone=" + phone + ", introduce="
+		return "MemberVO [아이디=" + userId + ",\r\n 비밀번호=" + password + ",\r\n 이메일=" + email + ",\r\n 이메일 동의여부="
+				+ emailAgree + ",\r\n 관심분야=" + Arrays.toString(interest) + ",\r\n 전화번호=" + phone + ",\r\n 자기소개="
 				+ introduce + "]";
 	}
 	

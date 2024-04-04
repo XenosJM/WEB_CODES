@@ -19,6 +19,7 @@
 			hitsCount += 1;
 		}
 		application.setAttribute("hitCounter", hitsCount);
+			application.removeAttribute("hitCounter");
 	%>
 	
 	<p>전체 방문 횟수 : <%=hitsCount %></p>

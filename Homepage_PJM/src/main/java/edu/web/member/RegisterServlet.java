@@ -35,18 +35,12 @@ public class RegisterServlet extends HttpServlet {
         String phone = request.getParameter("phone");
         String introduce = request.getParameter("introduce");
      // MemberVO 객체 생성 및 데이터 설정
-        MemberVO member = new MemberVO(userId, password, email, emailAgree, interest, phone, introduce);
-        
-        // 받은 데이터 확인 (테스트용)
-        System.out.println(member.toString());
-        
-        // 여기서부터는 데이터 처리 로직을 구현   
-        // 예시: 데이터를 데이터베이스에 저장하거나 다른 서비스에 전달하는 등의 작업을 수행할 수 있습니다.
-        int result = dao.insert(member);
-        System.out.println(result);
+        MemberVO vo = new MemberVO(userId, password, email, emailAgree, interest, phone, introduce);
+        dao.insert(vo);
+       
         // 처리 결과에 따른 응답
-        response.getWriter().print("<script>alert('회원 가입을 축하 드립니다!!');</script>");
         response.sendRedirect("/Homepage_PJM/login.jsp");
+//        response.getWriter().print("<script>alert('회원 가입을 축하 드립니다!!');</script>");
 	}
 
 }

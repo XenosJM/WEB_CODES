@@ -9,6 +9,7 @@
 <body>
 	<%
 		// TODO : 회원 가입 form 생성. action="register.do" method="post"
+
 	%>
 	<h2>회원 가입</h2>
     <form action="register.do" method="post">

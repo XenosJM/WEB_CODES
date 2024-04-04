@@ -1,6 +1,10 @@
 package edu.web.member;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,14 +29,21 @@ public class LoginServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		System.out.println("두겟이 시작");
+		HttpSession session = request.getSession();
+		if(session.getAttribute("userId") == null) {
+			response.sendRedirect("/Homepage_PJM/login.jsp");	
+		} else { 
+			response.sendRedirect("/Homepage_PJM/loginResult.jsp");
+		}
 		// 리퀘스트가 존재하지 않음, url 이동용으로만 사용
 		// sendRedirect() : 특정 경로로 이동
 		// request는 소멸되기 때문에 데이터를 전송할 수 없음
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		System.out.println("두포스트가 시작");
 		// ServletContext : 애플리케이션 정보 제공
 		String userId = request.getParameter("userId");
 		String password = request.getParameter("password");
@@ -40,18 +51,11 @@ public class LoginServlet extends HttpServlet {
 		MemberVO vo = new MemberVO();
 		vo =  dao.select(userId);
 		
-		
 		if(vo.getUserId() != null) {
-			if(vo.getUserId().equals(userId) && vo.getPassword().equals(password)) {
-				session.setMaxInactiveInterval(60); // 10초
-				session.setAttribute("userId", vo.getUserId());
-				session.setAttribute("password", vo.getPassword());
-				session.setAttribute("email", vo.getEmail());
-				session.setAttribute("emailAgree", vo.getEmailAgree());
-				session.setAttribute("interest", vo.getInterestJoin());
-				session.setAttribute("phone", vo.getPhone());
-				session.setAttribute("introduce", vo.getIntroduce());
-				
+			if(vo.getPassword().equals(password)) {
+				session.setAttribute("userId", userId);
+				session.setMaxInactiveInterval(60);
+
 				response.sendRedirect("/Homepage_PJM/loginResult.jsp");
 //				response.getWriter().print("<script>alert('로그인에 성공했습니다!!');</script>");
 			} else {
