@@ -1,3 +1,4 @@
+<%@page import="edu.web.member.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -13,7 +14,7 @@
 		out.println("<script>alert('비정상적인 접근경로 입니다!!');</script>");
 		out.println("<script>location.href='login.jsp'</script>");
 		}
-		
+		MemberVO vo = (MemberVO)session.getAttribute("vo");
 	%>
 	<h2>회원 정보 수정</h2>
     <form action="update.do" method="post">

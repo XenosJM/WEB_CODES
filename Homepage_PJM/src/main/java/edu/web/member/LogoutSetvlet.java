@@ -23,7 +23,7 @@ public class LogoutSetvlet extends HttpServlet {
 		System.out.println("두겟이 시작");
 		HttpSession session = request.getSession();
 		if(session.getAttribute("userId") != null) {
-			session.invalidate();
+			session.removeAttribute("userId");
 			response.sendRedirect("/Homepage_PJM/login.jsp");		
 		} else {
 			response.sendRedirect("/Homepage_PJM/login.jsp");

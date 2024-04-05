@@ -1,6 +1,8 @@
 package edu.web.member;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,10 +38,17 @@ public class RegisterServlet extends HttpServlet {
         String introduce = request.getParameter("introduce");
      // MemberVO 객체 생성 및 데이터 설정
         MemberVO vo = new MemberVO(userId, password, email, emailAgree, interest, phone, introduce);
-        dao.insert(vo);
+        int result = dao.insert(vo);
        
-        // 처리 결과에 따른 응답
-        response.sendRedirect("/Homepage_PJM/login.jsp");
+       // 처리 결과에 따른 응답
+        PrintWriter out = response.getWriter();
+        if(result == 1) {
+        	out.append("<script>alert('회원 가입을 축하 드립니다!!');</script>");
+        	out.append("<script>location.href='login.jsp';</script>");
+        } else {
+        	out.append("<script>alert('회원 가입에 실패했습니다.');</script>");
+        	out.append("<script>location.href='memberRegister.jsp';</script>");
+        }
 //        response.getWriter().print("<script>alert('회원 가입을 축하 드립니다!!');</script>");
 	}
 

@@ -15,7 +15,7 @@
   	<!-- filter-mapping의 filter-name과 일치 -->
   	<filter-name>CharFilter</filter-name>
   	<filter-class>edu.web.member.CharFilter</filter-class>
-  </filter>
+  </filter> 
   
   <filter-mapping>
   	<filter-name>CharFilter</filter-name>
@@ -23,4 +23,30 @@
   	<url-pattern>/*</url-pattern>
   	<url-pattern>/Homepage_PJM/*</url-pattern> <!-- /*은 존재하는 모든 하위 경로 -->
   </filter-mapping>
+  
+   <filter>
+  	<filter-name>SessionFilter</filter-name>
+  	<filter-class>edu.web.member.SessionFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+ 	 <filter-name>SessionFilter</filter-name>
+  	<url-pattern>/delete.do</url-pattern>
+  	<url-pattern>/update.do</url-pattern>
+  	<url-pattern>/logout.do</url-pattern>
+  	<url-pattern>/select.do</url-pattern>
+  	<url-pattern>/loginResult.jsp</url-pattern>
+  	<url-pattern>/memberResult.jsp</url-pattern>
+  	<url-pattern>/memberUpdate.jsp</url-pattern>
+  	
+
+  </filter-mapping>
+  
+  
 </web-app>
+
+
+
+
+
+

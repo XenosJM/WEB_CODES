@@ -22,6 +22,26 @@ public class MemberDAOImple implements MemberDAO, DBConnection {
 		return instance;
 	}
 	
+	// conn, pstmt 리소스 해제 메소드
+	private void colseResource(Connection conn, PreparedStatement pstmt) {
+		try {
+			pstmt.close();
+			conn.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void colseResource(Connection conn, PreparedStatement pstmt, ResultSet rs) {
+		try {
+			pstmt.close();
+			conn.close();
+			rs.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public int insert(MemberVO vo) {
 		System.out.println("DB insert 시작");
@@ -47,12 +67,7 @@ public class MemberDAOImple implements MemberDAO, DBConnection {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				pstmt.close();
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			colseResource(conn, pstmt);
 		}
 		
 		return result;
@@ -100,13 +115,7 @@ public class MemberDAOImple implements MemberDAO, DBConnection {
 	} catch (SQLException e) {
 		e.printStackTrace();
 	} finally {
-		try {
-			pstmt.close();
-			conn.close();
-			rs.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		colseResource(conn, pstmt, rs);
 	}
 	return vo;
 	}
@@ -136,12 +145,7 @@ public class MemberDAOImple implements MemberDAO, DBConnection {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				conn.close();
-				pstmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			colseResource(conn, pstmt);
 		}
 		
 		return result;
@@ -166,12 +170,7 @@ public class MemberDAOImple implements MemberDAO, DBConnection {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				conn.close();
-				pstmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			colseResource(conn, pstmt);
 		}
 		
 		return result;

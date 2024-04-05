@@ -48,26 +48,31 @@ public class LoginServlet extends HttpServlet {
 		String userId = request.getParameter("userId");
 		String password = request.getParameter("password");
 		HttpSession session = request.getSession();
-		MemberVO vo = new MemberVO();
-		vo =  dao.select(userId);
-		
+		MemberVO vo = new MemberVO();  
+		vo = dao.select(userId);
+		System.out.println(vo.getUserId());
+		PrintWriter out = response.getWriter();
 		if(vo.getUserId() != null) {
 			if(vo.getPassword().equals(password)) {
 				session.setAttribute("userId", userId);
 				session.setMaxInactiveInterval(60);
-
-				response.sendRedirect("/Homepage_PJM/loginResult.jsp");
+		        out.append("<script>alert('로그인 성공!');</script>");
+		        out.append("<script>location.href='loginResult.jsp';</script>");
+//				response.sendRedirect("/Homepage_PJM/loginResult.jsp");
 //				response.getWriter().print("<script>alert('로그인에 성공했습니다!!');</script>");
 			} else {
 				System.out.println("뭔가가 틀렸네?");
-				session.invalidate();
-				response.sendRedirect("/Homepage_PJM/login.jsp");
+				 out.append("<script>alert('뭔가가 틀렸네?');</script>");
+			     out.append("<script>location.href='login.jsp';</script>");
+//				response.sendRedirect("/Homepage_PJM/login.jsp");
 //				response.getWriter().print("<script>alert('아이디 또는 비밀번호가 다릅니다!!');</script>");
 			}
 	   } else { 
-		   session.invalidate();
+//		   session.invalidate();
 		   System.out.println("회원이 아니네?");
-		   response.sendRedirect("/Homepage_PJM/login.jsp");
+		   out.append("<script>alert('회원이 아니네?');</script>");
+	       out.append("<script>location.href='login.jsp';</script>");
+//		   response.sendRedirect("/Homepage_PJM/login.jsp");
 //		   response.getWriter().print("<script>alert('아직 우리 회원이 아니시네요!, 회원가입부터 해주세요.!');</script>");
 		   
 	   }

@@ -25,10 +25,15 @@ public class DeleteServlet extends HttpServlet {
 		System.out.println("두겟 시작");
 		HttpSession session = request.getSession();
 		String userId = (String)session.getAttribute("userId");
-		dao.delete(userId);
-		session.invalidate();
-		response.sendRedirect("/Homepage_PJM/login.jsp");
+		if(userId != null) {
+			int result = dao.delete(userId);
+			if(result == 1) { 
+				session.removeAttribute(userId);
+				response.sendRedirect("login.jsp");
+				
+			}
 //		response.getWriter().print("<script>alert('회원 정보가 삭제되었습니다!');</script>");
+		}
 
 	}
 

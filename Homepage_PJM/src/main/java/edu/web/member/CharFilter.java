@@ -44,6 +44,8 @@ public class CharFilter extends HttpFilter implements Filter {
 		// 클라이언트로부터 IP 얻기
 		String ipAddress = req.getRemoteAddr();
 		req.setCharacterEncoding("UTF-8");
+		res.setCharacterEncoding("UTF-8");
+		res.setContentType("text/html; charset=UTF-8");
 		// 현재 시간과 IP주소 출력
 		System.out.println("IP : " + ipAddress + ", Time : " + new Date().toString());
 		chain.doFilter(req, res);

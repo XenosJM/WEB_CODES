@@ -45,12 +45,13 @@ public class UpdateServlet extends HttpServlet {
 		String phone = request.getParameter("phone");
 		String introduce = request.getParameter("introduce");
 		MemberVO vo = new MemberVO(userId, password, email, emailAgree, interest, phone, introduce);
-		dao.update(userId, vo);
+		int result = dao.update(userId, vo);
 
-		request.setAttribute("vo", vo.toString());
-		ServletContext context = getServletContext();
-		RequestDispatcher dispatcher = context.getRequestDispatcher("/memberResult.jsp");
-		dispatcher.forward(request, response);
+		if(result == 1 ) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/memberResult.jsp");
+			request.setAttribute("vo", vo);
+			dispatcher.forward(request, response);			
+		}
 
 		response.sendRedirect("/Homepage_PJM/memberResult.jsp");
 
