@@ -36,24 +36,33 @@ public interface BoardDB extends DBConnection {
 					"WHERE " + COL_NUMBER + " = ?";
 	
 	// 게시글 삭제(입력받은 게시글 번호를 값으로 가지고있는 모든 데이터 삭제. 댓글도 포함)
+	String SQL_DELETE = "DELETE " + TABLE_BOARD +" WHERE " + COL_ID + " = ?"; 
 	
-	
-	// 댓글 작성
+	// 댓글 작성(대댓글도 동일, 댓글과 대댓글을 작성한 사용자의 ID는 USER_ID에 저장. 
+	// 대댓글의 부모 댓글을 나타내기 위해 부모 댓글의 ID가 REPLY_ID에 저장. 댓글일땐 REPLY_ID는 게시글 작성자가 된다.
 	String SQL_INSERT_REPLY = "INSERT INTO " + TABLE_REPLY
 			+ " VALUES (?, ?, ?, ?, ?)";
-	
-	// 댓글에 대한 댓글 작성 쿼리(대댓글)
-	
-	
-	// 댓글 수정
-	
-	
+
+	// 댓글 수정. 내용 수정과 삭제만 가능.
+	String SQL_UPDATE_REPLY = 
+			"UPDATE " + TABLE_REPLY + " SET " + 
+					COL_REPLY_CONTENT + " = ? " +
+					"WHERE " + COL_NUMBER + " = ? AND " +
+					COL_;
 	// 댓글에 대한 댓글 수정 쿼리(대댓글)
-	
+	UPDATE 댓글테이블
+	SET 내용 = ?
+	WHERE 게시글번호 = ? 
+	AND 회원ID = ? 
+	AND 댓글ID = ?;
 	
 	// 댓글 삭제
-	
+	DELETE FROM 댓글테이블
+	WHERE 게시글번호 = ?
+	AND 회원ID = ?;
 	
 	// 댓글에 대한 댓글 삭제 쿼리(대댓글)
-	
+	DELETE FROM 댓글테이블
+	WHERE 게시글번호 = ?
+	AND 회원ID = ?;
 }

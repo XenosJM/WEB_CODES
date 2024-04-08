@@ -15,7 +15,19 @@
 		// String getParameter(String name) :
 		// request는 form에서 전송된 데이터를 불러오는 parameter를 제공
 		// request 객체에 Form Data가 저장되고, getParameter()로 데이터 참조
+	/*
+		* Get 방식 url 정보
+		http://localhost:8081/ : 도메인 정보
+		Web06_JSP_Servlet/ : Context Root(서버 기본 경로)
+		ch12/result.jsp : 페이지 경로(url pattern)
+		?name=%EB%B0%95%EC%A0%95%EB%AF%BC&age=1231 : Query String
+		name, age parameter
 		
+		서버 사이드 렌더링 = 동기 방식
+		장점 : 구현이 쉽다.
+		클라이언트 사이드 렌더링 = 비동기 방식 
+	*/
+	
 	/* 	 * parameter와 attribute의 차이점
 		 - parameter와 attribute는 비슷한 기능을 수행
 		 

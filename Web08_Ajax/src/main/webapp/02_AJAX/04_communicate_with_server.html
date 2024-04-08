@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>서버와 대화해요</title>
+</head>
+<body>
+	<h2>아래에 글을 입력해 주세요.</h2>
+	<p>
+		첫 글자 : <input type="text" id="txt" onkeyup="showHint(this.value)">
+	</p>
+	<p>
+		추천 : <span id="txtHint"></span>
+	</p>
+	<script type="text/javascript">
+		function showHint(str){
+			// get 방식으로 04_get_hint.jsp 페이지에 데이터 전송하고
+			// 결과를 추천 span에 출력
+			// onkeyup은 키가 눌렸을때 이벤트가 showHint가 되고
+			// this.value는 누른 키값인데. 이 키 값이 변할때 마다 요청이 들어간다.
+			if(str.length != 0){				
+			let xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function(){
+				if(this.readyState == 4 && this.status == 200){
+					document.getElementById("txtHint").innerHTML = this.responseText;
+				}
+			};
+			xhttp.open("GET", "04_get_hint.jsp?txt=" + str , true);
+			xhttp.send();
+			} else {
+				document.getElementById("txtHint").innerHTML = "";
+				return;
+			}
+		}
+	</script>
+</body>
+</html>

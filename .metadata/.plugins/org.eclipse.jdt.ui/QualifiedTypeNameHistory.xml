@@ -22,4 +22,10 @@
     <fullyQualifiedTypeName name="com.google.gson.Gson"/>
     <fullyQualifiedTypeName name="java.io.FileWriter"/>
     <fullyQualifiedTypeName name="edu.web.json.PersonVO"/>
+    <fullyQualifiedTypeName name="netscape.javascript.JSObject"/>
+    <fullyQualifiedTypeName name="com.google.gson.JsonObject"/>
+    <fullyQualifiedTypeName name="com.google.gson.JsonElement"/>
+    <fullyQualifiedTypeName name="com.google.gson.JsonArray"/>
+    <fullyQualifiedTypeName name="com.google.gson.GsonBuilder"/>
+    <fullyQualifiedTypeName name="java.nio.charset.StandardCharsets"/>
 </qualifiedTypeNameHistroy>

@@ -55,6 +55,7 @@ public class CreateJsonUsingGson {
 			// 굳이 vo형식으로 만들어서 저장할 필요가 없다.
 			// 이미 객체형식으로 파싱을 했기때문에 데이터를 빼거나 바꾼후
 			// 객체형태인 데이터를 다시 json으로 파싱해서 저장하면된다.
+			// 다만 이제 다른데서 처리할시 vo로 보내는편이 안전
 //			PersonVO pv = new PersonVO(name, age, false, null, address);
 			Gson gson = new Gson();
 			String json = gson.toJson(jsonObject);

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>XMLHttpRequest GET/POST</title>
+</head>
+<body>
+	<h2>XMLHttpRequest 요청</h2>
+	<button type="button" onclick="loadDocGet()">get 데이터 요청</button>
+	<button type="button" onclick="loadDocPost()">post 데이터 요청</button>
+	
+	<p id="output"></p>
+	<script type="text/javascript">
+	function loadDocGet(){
+		let xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function(){
+			if(this.readyState == 4 && this.status == 200){
+				document.getElementById("output").innerHTML = this.responseText;
+			}
+		};
+		// get은 url 형식에서도 출력이 가능
+		xhttp.open("GET", "02_date.jsp?method=get&content=Hello", true);
+		xhttp.send();
+	}
+	function loadDocPost(){
+		let xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function(){
+			if(this.readyState == 4 && this.status == 200){
+				document.getElementById("output").innerHTML = this.responseText;
+			}
+		};
+		
+		xhttp.open("POST", "02_date.jsp", true);
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.send("method=post&content=Hello");
+	}
+	</script>
+
+</body>
+</html>
