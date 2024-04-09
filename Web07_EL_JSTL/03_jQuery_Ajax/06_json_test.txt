@@ -1,0 +1,8 @@
+{
+	"name" : "park",
+	"age" : 28,
+	"pets" : [
+		{"animal" : "dog", "name" : "kkamang"},
+		{"animal" : "cat", "name" : "navi"} 
+	]
+}

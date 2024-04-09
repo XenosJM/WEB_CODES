@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<title>로그인 페이지</title>
+</head>
+<body>
+	<h1>로그인 페이지</h1>
+	<div>
+			<input type="text" id="userid"><br>
+			<input type="password" id="password"><br>
+			<button id="loginBtn">로그인</button>	
+	</div>
+	
+	<script type="text/javascript">
+		$(function(){
+			$('#loginBtn').click(function(){
+				let userid = $('#userid').val();
+				let password = $('#password').val();
+				
+				let obj = {
+						"userid" : userid,
+						"password" : password
+				};
+				
+				// ajax 요청 전송
+				$.ajax({
+					type : 'post',
+					url : '../login.do',
+					data : {'obj' : JSON.stringify(obj)}, // Json으로 변환
+					success : function(result){
+						if(result == 'success'){
+							alert('로그인 정보 일치');
+						} else {
+							alert('로그인 정보 불일치');
+						}
+					} // end success					
+				}); // end ajax({})
+			}); // end btnclick()
+		}); // end document
+	</script>
+	
+</body>
+</html>
