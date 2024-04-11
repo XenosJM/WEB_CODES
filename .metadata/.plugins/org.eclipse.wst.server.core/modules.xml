@@ -9,4 +9,5 @@
   <module moduleId="org.eclipse.jst.jee.server:Web01_HTML"/>
   <module moduleId="org.eclipse.jst.jee.server:MySmallWebProject" serverId="Tomcat v9.0 Server at localhost"/>
   <module moduleId="org.eclipse.jst.jee.server:Web08_Ajax" serverId="Tomcat v9.0 Server at localhost"/>
+  <module moduleId="org.eclipse.jst.jee.server:Web09_MVC" serverId="Tomcat v9.0 Server at localhost"/>
 </modules>

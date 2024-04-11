@@ -22,19 +22,18 @@
 						type : 'post',
 						url : '../select.do',
 						data : {"txt" : txt},
-				
-					success : function(result){
-						let ps = JSON.parse(result);
-						console.log(ps);						
-						let list = '';
-						console.log("for문 전 : " + list);
-						for(x in ps){
-							list +=	"<a href='https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query="
-									+ ps[x].title +"'>" + ps[x].title + '</a><br>'; 
-							console.log("for문 안 : " + list);
-						}
-						$('#output').html(list);
-					} 
+						success : function(result){
+							let ps = JSON.parse(result);
+							console.log(ps);						
+							let list = '';
+							console.log("for문 전 : " + list);
+							for(x in ps){
+								list +=	"<a href='https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query="
+										+ ps[x].title +"'>" + ps[x].title + '</a><br>'; 
+								console.log("for문 안 : " + list);
+							}
+							$('#output').html(list);
+						} 
 				}); // end ajax({});
 			}); // end keyup
 		}); // end document

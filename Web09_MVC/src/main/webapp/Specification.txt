@@ -1,0 +1,48 @@
+	
+	1. 주제 : 게시판 댓글 로그인
+
+	2. 기능 : 
+	<게시판>
+	- 게시글을 등록할 수 있다.
+	- 게시글을 게시글 아이디에 맞게 조회가능
+	+ 페이징 처리
+	- 게시글을 전체 조회 가능
+	- 수정
+	- 삭제
+	
+	<댓글>
+	- 댓글을 등록할 수 있다.
+	- 댓글 전체 조회 가능
+	- 수정
+	- 삭제
+	
+	<로그인>
+	- 로그인 수행 가능
+	- 로그아웃 수행 가능
+	- 로그인한 사용자만 글 작성 가능
+	
+	3. DB 테이블 : 
+	- 게시글 번호(BOARD_ID, NUMBER)
+	- 게시글 제목(BOARD_TITLE, VARCHAR2(100))
+	- 게시글 내용(BOARD_CONTENT, VARCHAR2(500))
+	- 게시자 아이디(USER_ID, VARCHAR2(20))
+	- 게시글 작성 시간(BOARD_DATE_CREATED, TIMESTAMP)(날짜만 : DATE, 시간도 : TIMESTAMP)
+	
+	3-1 댓글 테이블 :
+	- 댓글 번호(REPLY_ID, NUMBER, PK)
+	- 게시글 번호(BOARD_ID, NUMBER, FK)
+	- 댓글작성자 아이디(USER_ID, VARCHAR2(20), FK)
+	- 댓글대상자 아이디(REUSER_ID, VARCHAR2(20))
+	- 댓글 내용(REPLY_CONTENT, VARCHAR2(100))
+	- 댓글 작성일(REPLY_DATE_CREATE, TIMESTAMP)
+	
+	4. VO : 
+	
+	
+	
+	
+	
+	
+	
+	
+	
