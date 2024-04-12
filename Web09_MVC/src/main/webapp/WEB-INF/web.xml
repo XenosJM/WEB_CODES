@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>Web09_MVC</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+  
+    <!-- 필터 설정 -->
+  <filter>
+  	<!-- filter-mapping의 filter-name과 일치 -->
+  	<filter-name>CharFilter</filter-name>
+  	<filter-class>edu.web.persistence.CharFilter</filter-class>
+  </filter> 
+  
+  <filter-mapping>
+  	<filter-name>CharFilter</filter-name>
+  	<!-- 경로 설정 -->
+  	<url-pattern>/*</url-pattern><!-- /*은 존재하는 모든 하위 경로 -->
+  </filter-mapping>
+  
+  <filter>
+  	<filter-name>SessionFilter</filter-name>
+  	<filter-class>edu.web.persistence.SessionFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+ 	<filter-name>SessionFilter</filter-name> <!-- 세션이 없으면 진입을 못해야 하는곳 -->
+		<url-pattern>/delete.do</url-pattern>
+		<url-pattern>/update.do</url-pattern>
+		<url-pattern>/logout.do</url-pattern>
+		<url-pattern>/register.do</url-pattern>
+		<url-pattern>/memberResult.jsp</url-pattern>
+		<url-pattern>/memberUpdate.jsp</url-pattern>
+  </filter-mapping>
+  
+  
+</web-app>
+
+
+
+
+
+

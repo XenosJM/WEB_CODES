@@ -29,7 +29,8 @@ public class SessionFilter extends HttpFilter implements Filter {
 		HttpSession session = req.getSession();
 		String userId = (String) session.getAttribute("userId");
 		if(userId != null) {
-			res.sendRedirect("login.jsp");
+		    res.sendRedirect("login.jsp");
+		    
 		}
 		// place your code here
 

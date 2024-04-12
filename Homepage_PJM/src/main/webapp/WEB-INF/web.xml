@@ -20,7 +20,6 @@
   <filter-mapping>
   	<filter-name>CharFilter</filter-name>
   	<!-- 경로 설정 -->
-  	<url-pattern>/*</url-pattern>
   	<url-pattern>/Homepage_PJM/*</url-pattern> <!-- /*은 존재하는 모든 하위 경로 -->
   </filter-mapping>
   

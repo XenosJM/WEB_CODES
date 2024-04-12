@@ -16,8 +16,8 @@ INDEX VERSION 1.131+C:\Users\sdedu\Desktop\WEB_CODES\.metadata\.plugins\org.ecli
 3576942846.index
 2628160544.index
 1960251748.index
-1231250573.index
 2173440222.index
+1231250573.index
 2533656852.index
 592287304.index
 923341040.index
@@ -30,8 +30,8 @@ INDEX VERSION 1.131+C:\Users\sdedu\Desktop\WEB_CODES\.metadata\.plugins\org.ecli
 2980008896.index
 2464212953.index
 1665184158.index
-1865797976.index
 3059954230.index
+1865797976.index
 854823609.index
 1036265382.index
 1668389419.index
@@ -49,10 +49,10 @@ INDEX VERSION 1.131+C:\Users\sdedu\Desktop\WEB_CODES\.metadata\.plugins\org.ecli
 1589074245.index
 1345091527.index
 2075159127.index
-2673032134.index
-464362726.index
-4080434275.index
 2680720235.index
+464362726.index
+2673032134.index
+4080434275.index
 1934707339.index
 2943476175.index
 2142365878.index
@@ -65,6 +65,6 @@ INDEX VERSION 1.131+C:\Users\sdedu\Desktop\WEB_CODES\.metadata\.plugins\org.ecli
 1378060612.index
 625584508.index
 1364499838.index
-2013833949.index
-9010842.index
 2729128879.index
+9010842.index
+2013833949.index
