@@ -43,11 +43,12 @@ public class SessionFilter extends HttpFilter implements Filter {
 		if(reqURI.contains(MAIN)) {
 			res.sendRedirect(MAIN + EXTENSION);
 		} else if(userId == null) {
-			RequestDispatcher dispatcher = req.getRequestDispatcher(LOGIN + SERVER_EXTENSION);
-			req.setAttribute("reqURIF", reqURI);
-			req.setAttribute("reqBoardId", reqBoardId);
-			dispatcher.forward(req, res);
-//			res.sendRedirect(LOGIN + SERVER_EXTENSION);
+//			RequestDispatcher dispatcher = req.getRequestDispatcher(LOGIN + SERVER_EXTENSION);
+			session.setAttribute("reqURIF", reqURI);
+			System.out.println(""+ reqURI);
+			session.setAttribute("reqBoardId", reqBoardId);
+//			dispatcher.forward(req, res);
+			res.sendRedirect(LOGIN + SERVER_EXTENSION);
 			return;
 		}
 			

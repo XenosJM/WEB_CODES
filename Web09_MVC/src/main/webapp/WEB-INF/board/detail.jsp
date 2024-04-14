@@ -12,14 +12,16 @@
 		if (session.getAttribute("userId") == null) {
 		out.println("<script>alert('로그인이 필요합니다.');</script>");
 		out.println("<script>location.href='login.do'</script>");
-		} else{
-			String msg = request.getParameter("msg");
+		} 
+		/* else{
+			String msg = (String)request.getAttribute("msg");
 			if(msg != null){
 			out.print("<script>alert('" + msg + "');</script>");
 			}
 		}
+			request.removeAttribute("msg");  */
 	%>
-	<h2>환영합니다. detail.jsp 입니다. <%=vo.getUserId() + "님이시군요!" %></h2>
+	<h2>환영합니다. detail.jsp 입니다. <%=session.getAttribute("userId") + "님이시군요!" %></h2>
 	<table border="1">
 		<tr>
 			<td>번호</td>
@@ -43,5 +45,7 @@
 		<input readOnly type="hidden" name="boardId" value="<%=vo.getBoardId() %>" >
 		<input type="submit" value="삭제하기">
 	</form>
+	<button onclick="window.location.href='list.do'">돌아가기</button>
+	<%// TODO 버튼 만들기 %> 
 </body>
 </html>
