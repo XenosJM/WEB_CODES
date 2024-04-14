@@ -8,7 +8,6 @@
     <fullyQualifiedTypeName name="edu.web.member.MemberDAOImple"/>
     <fullyQualifiedTypeName name="javax.servlet.http.HttpFilter"/>
     <fullyQualifiedTypeName name="edu.web.member.DBConnection"/>
-    <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
     <fullyQualifiedTypeName name="javax.servlet.Filter"/>
     <fullyQualifiedTypeName name="edu.web.member.SessionFilter"/>
     <fullyQualifiedTypeName name="com.google.gson.Gson"/>
@@ -36,10 +35,20 @@
     <fullyQualifiedTypeName name="javax.naming.Context"/>
     <fullyQualifiedTypeName name="javax.sql.DataSource"/>
     <fullyQualifiedTypeName name="java.util.Date"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="java.sql.ResultSet"/>
     <fullyQualifiedTypeName name="javax.servlet.http.HttpServletRequest"/>
     <fullyQualifiedTypeName name="javax.servlet.http.HttpServletResponse"/>
     <fullyQualifiedTypeName name="edu.web.domain.BoardVO"/>
     <fullyQualifiedTypeName name="java.io.PrintWriter"/>
+    <fullyQualifiedTypeName name="edu.web.domain.ReplyVO"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="org.graalvm.compiler.nodes.java.NewArrayNode"/>
+    <fullyQualifiedTypeName name="java.net.URLEncoder"/>
+    <fullyQualifiedTypeName name="edu.web.persistence.SessionFilter"/>
+    <fullyQualifiedTypeName name="edu.web.persistence.ReplyDAO"/>
+    <fullyQualifiedTypeName name="edu.web.persistence.MemberDAO"/>
+    <fullyQualifiedTypeName name="edu.web.persistence.MemberQuery"/>
+    <fullyQualifiedTypeName name="edu.web.domain.MemberVO"/>
+    <fullyQualifiedTypeName name="edu.web.persistence.MemberDAOImple"/>
+    <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
 </qualifiedTypeNameHistroy>

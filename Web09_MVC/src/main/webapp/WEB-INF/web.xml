@@ -32,6 +32,8 @@
  	<filter-name>SessionFilter</filter-name> <!-- 세션이 없으면 진입을 못해야 하는곳 -->
 		<url-pattern>/delete.do</url-pattern>
 		<url-pattern>/update.do</url-pattern>
+		<url-pattern>/detail.do</url-pattern>
+		<url-pattern>/index.do</url-pattern>
 		<url-pattern>/logout.do</url-pattern>
 		<url-pattern>/register.do</url-pattern>
 		<url-pattern>/memberResult.jsp</url-pattern>

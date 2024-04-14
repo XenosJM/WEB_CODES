@@ -6,6 +6,12 @@
 <meta charset="UTF-8">
 <title>게시글을 등록해 보아요</title>
 </head>
+	<%
+		if (session.getAttribute("userId") == null) {
+		out.println("<script>alert('비정상적인 접근경로 입니다!!');</script>");
+		out.println("<script>location.href='login.do'</script>");
+		}
+	%>
 <body>
 	<h2>게시글 등록</h2>
 	<form action="register.do" Method="post">

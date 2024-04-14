@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <typeInfoHistroy>
-    <typeInfo handle="=Web08_Ajax/src\/main\/java&lt;edu.web.ajax{SearchDAO.java[SearchDAO" modifiers="513" timestamp="1712648345539"/>
-    <typeInfo handle="=Web09_MVC/src\/main\/java&lt;edu.web.persistence{BoardDAO.java[BoardDAO" modifiers="513" timestamp="1712813855472"/>
+    <typeInfo handle="=Web09_MVC/src\/main\/java&lt;edu.web.persistence{ReplyDAO.java[ReplyDAO" modifiers="513" timestamp="1712987940088"/>
+    <typeInfo handle="=Web09_MVC/src\/main\/java&lt;edu.web.persistence{ReplyQuery.java[ReplyQuery" modifiers="513" timestamp="1712993781476"/>
 </typeInfoHistroy>

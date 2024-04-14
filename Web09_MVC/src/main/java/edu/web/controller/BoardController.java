@@ -2,6 +2,7 @@ package edu.web.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -10,9 +11,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import edu.web.domain.BoardVO;
+import edu.web.domain.MemberVO;
 import edu.web.persistence.BoardDAO;
 import edu.web.persistence.BoardDAOImple;
+import edu.web.persistence.MemberDAO;
+import edu.web.persistence.MemberDAOImple;
+import edu.web.persistence.ReplyDAO;
 
 
 @WebServlet("*.do") // *.do : ~.do로 선언된 HTTP 호출에 대해 반응
@@ -28,10 +34,14 @@ public class BoardController extends HttpServlet {
     private static final String LOGIN = "login";
     private static final String EXTENSION = ".jsp";
     private static final String SERVER_EXTENSION = ".do";
-    private BoardDAO dao;
+    private BoardDAO boardDao;
+    private ReplyDAO replyDao;
+    private MemberDAO memberDao;
     
     public BoardController() {
-    	dao = BoardDAOImple.getInstance();
+    	boardDao = BoardDAOImple.getInstance();
+    	replyDao = ReplyDAOImple.getInstance();
+    	memberDao = MemberDAOImple.getInstance();
     }
 
     @Override
@@ -40,8 +50,6 @@ public class BoardController extends HttpServlet {
     	String reqMethod = req.getMethod();
     	System.out.println("호출 경로 : " + reqURI); //: 요청이 발생됬을때 요청을 한 경로
     	System.out.println("호출 방식 : " + reqMethod); // : 요청이 발생됬을때 요청방식
-    	String userId = req.getParameter("userId");
-    	String password = req.getParameter("password");
     	// get = 페이지 로드, post = 데이터 전송
     	// 로그인 성공시 세션 생성후, 메인 페이지 로드(list)
     	
@@ -72,10 +80,10 @@ public class BoardController extends HttpServlet {
 	    		} // end delete
 	    	} else if(reqURI.contains(LOGIN + SERVER_EXTENSION)) {
 	    		System.out.println("login 호출 확인");
-	    		// TODO 로그인시 아이디 비번 체크 진행 시켜야함
+//	    		if(reqMethod.equals("GET")) {
 	    		login(req, res);
+//	    		} // POST는 나눠야 하면 나눌것
 	    	}
-    
     } // end service()
     
     
@@ -86,29 +94,58 @@ public class BoardController extends HttpServlet {
     // 로그인 진행(로그인 겟으로 이동해서 창을 띄워야함), 로그인 성공시 클릭했던 게시글로 이동(세션을 생성후 이동하는데 이동하는 경로는
     // 상세검색으로 가되 전송받았던 게시글 아이디와 함께 이동해서 게시글 상세보기화면으로 이동)
     private void login(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-    	System.out.println("login()");
+    	System.out.println("loginDO()");
     	String path = LOGIN + EXTENSION;
-	    res.sendRedirect(path+"?msg=if you want to regist board, plz login first");
-    	// TODO 이렇게 해서 처리 할것 다른 애들도
-    }
+    	String reqMethod = req.getMethod();
+    	String userIdPara = req.getParameter("userId");
+    	String password = req.getParameter("password");
+//    	System.out.println("reqURIori = " + reqURIori);
+    	// 로그인이 필요한 서비스를 요청한 URI
+    	String reqURIF = (String) req.getAttribute("reqURIF");
+    	// 게시판 상세보기시 로그인필요, 로그인후 게시판 상세보기에 필요한 게시글 번호
+    	String reqBoardId = req.getParameter("boardId");
+    	System.out.println("login, reqURIF = " + reqURIF);
+    	System.out.println("login, reqBoardId = " + reqBoardId);
+  
+    	if(reqMethod.contains("GET")) {
+    		RequestDispatcher dispatcher = req.getRequestDispatcher(path + "?msg=" + URLEncoder.encode("로그인 해주세욧!", "UTF-8"));
+    		req.setAttribute("reqURIF", reqURIF);
+        	req.setAttribute("reqBoardId", reqBoardId);
+        	dispatcher.forward(req, res);
+    	} else {
+    		MemberVO vo = memberDao.select(userIdPara);
+    		if(vo.getUserId()!=null) {    			
+	    		if(userIdPara.equals(vo.getUserId()) && password.equals(vo.getUserPassword())) {
+	    			HttpSession session = req.getSession();
+	    			session.setMaxInactiveInterval(600);
+	    			session.setAttribute("userId", vo.getUserId());
+	    			RequestDispatcher dispatcher = req.getRequestDispatcher(reqURIF +"?msg=" + URLEncoder.encode("로그인 되셨습니다.!", "UTF-8") );
+	    			dispatcher.forward(req, res);
+	    		} else {
+	    			res.sendRedirect(path + "?msg=" + URLEncoder.encode("아이디 혹은 비밀번호를 확인해주세요", "UTF-8"));	
+	    		} // end id & password 체크
+    		} else {
+    			res.sendRedirect(path + "?msg=" + URLEncoder.encode("아이디 혹은 비밀번호를 확인해주세요", "UTF-8"));
+    		} // end null체크
+    	} // end method 체크   	
+    } // end loginDO()
+    
+//    private void loginPOST(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+//    	
+//    } // end loginPOST()
     
 	// 전체 게시판 내용(list)을 DB에서 가져오고, 그 데이터를 list.jsp 페이지에 전송
     private void list(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
     	System.out.println("list()");
-    	List<BoardVO> vo = dao.select();
+    	List<BoardVO> vo = boardDao.select();
     	String path = BOARD_URL + LIST + EXTENSION;
     	RequestDispatcher dispatcher = req.getRequestDispatcher(path);
     	req.setAttribute("vo", vo);
-    	dispatcher.forward(req, res);
+		dispatcher.forward(req, res);
     } // end list()
 
 	private void registerGET(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		System.out.println("registerGET()");
-//		if (res.isCommitted()) {
-//			login(req, res);
-//			
-//	        // 이미 커밋된 경우에는 forward나 redirect를 시도하지 않고 종료
-//	    } // end 세션 체크
 		String path = REGISTER + EXTENSION;
 		res.sendRedirect(path);
 	} // end registerGET()
@@ -123,7 +160,7 @@ public class BoardController extends HttpServlet {
 		System.out.println("title : " + title + ", content : " + content + ", userId : " + userId);
 		BoardVO vo = new BoardVO(0, title, content, userId, null);
 		vo.setBoardTitle(title);
-		int result = dao.insert(vo);
+		int result = boardDao.insert(vo);
 		if(result == 1) {
 			res.sendRedirect(path);
 		} else {
@@ -144,7 +181,7 @@ public class BoardController extends HttpServlet {
 	    }
 		String path = BOARD_URL + DETAIL + EXTENSION;
 		int boardId = Integer.parseInt(req.getParameter("boardId"));
-		BoardVO vo = dao.select(boardId);
+		BoardVO vo = boardDao.select(boardId);
 		RequestDispatcher dispatcher = req.getRequestDispatcher(path);
     	req.setAttribute("vo", vo);
     	dispatcher.forward(req, res);
@@ -155,7 +192,7 @@ public class BoardController extends HttpServlet {
 		System.out.println("updateGET()");
 		String path = BOARD_URL + UPDATE + EXTENSION;
 		int boardId = Integer.parseInt(req.getParameter("boardId"));
-		BoardVO vo = dao.select(boardId);
+		BoardVO vo = boardDao.select(boardId);
 		RequestDispatcher dispatcher = req.getRequestDispatcher(path);
 		req.setAttribute("vo", vo);
 		dispatcher.forward(req, res);
@@ -169,7 +206,7 @@ public class BoardController extends HttpServlet {
 		String content = req.getParameter("content");
 		String userId = req.getParameter("userId");
 		BoardVO vo = new BoardVO(boardId, title, content, userId, null);
-		int result = dao.update(vo);
+		int result = boardDao.update(vo);
 		if(result == 1) {
 			detail(req, res);	
 		} else {
@@ -184,7 +221,7 @@ public class BoardController extends HttpServlet {
     	System.out.println("deletePOST()");
     	String path = MAIN + EXTENSION;
     	int boardId = Integer.parseInt(req.getParameter("boardId"));
-    	int result = dao.delete(boardId);
+    	int result = boardDao.delete(boardId);
     	if(result == 1) {
     		res.sendRedirect(path);
     	} else {

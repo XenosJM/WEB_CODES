@@ -9,4 +9,4 @@
 <body>
 	<jsp:forward page="list.do"></jsp:forward>
 </body>
-</html>
+</html> 

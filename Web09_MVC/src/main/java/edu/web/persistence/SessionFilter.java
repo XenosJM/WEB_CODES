@@ -4,6 +4,7 @@ import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,10 @@ import javax.servlet.http.HttpSession;
 
 public class SessionFilter extends HttpFilter implements Filter {
    String userId;
+   private static final String MAIN = "index";
+   private static final String LOGIN = "login";
+   private static final String EXTENSION = ".jsp";
+   private static final String SERVER_EXTENSION = ".do";
    BoardDAO dao = BoardDAOImple.getInstance();
 	
     public SessionFilter() {
@@ -27,12 +32,22 @@ public class SessionFilter extends HttpFilter implements Filter {
 			throws IOException, ServletException {
 		String reqURI = req.getRequestURI();
     	String reqMethod = req.getMethod();
-    	System.out.println("reqURI = " + reqURI);
-    	System.out.println("reqMethod = " + reqMethod);
+    	String reqBoardId = req.getParameter("boardId");
+//    	System.out.println("reqURI = " + reqURI);
+//    	System.out.println("reqMethod = " + reqMethod);
+//    	System.out.println("reqBoardId = " + reqBoardId);
+    	
 		HttpSession session = req.getSession();
+		
 		String userId = (String) session.getAttribute("userId");
-		if(userId == null) {
-			res.sendRedirect("login.do");
+		if(reqURI.contains(MAIN)) {
+			res.sendRedirect(MAIN + EXTENSION);
+		} else if(userId == null) {
+			RequestDispatcher dispatcher = req.getRequestDispatcher(LOGIN + SERVER_EXTENSION);
+			req.setAttribute("reqURIF", reqURI);
+			req.setAttribute("reqBoardId", reqBoardId);
+			dispatcher.forward(req, res);
+//			res.sendRedirect(LOGIN + SERVER_EXTENSION);
 			return;
 		}
 			

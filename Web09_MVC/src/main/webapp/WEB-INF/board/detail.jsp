@@ -8,7 +8,17 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<% BoardVO vo = (BoardVO)request.getAttribute("vo");%>
+	<%  BoardVO vo = (BoardVO)request.getAttribute("vo");
+		if (session.getAttribute("userId") == null) {
+		out.println("<script>alert('로그인이 필요합니다.');</script>");
+		out.println("<script>location.href='login.do'</script>");
+		} else{
+			String msg = request.getParameter("msg");
+			if(msg != null){
+			out.print("<script>alert('" + msg + "');</script>");
+			}
+		}
+	%>
 	<h2>환영합니다. detail.jsp 입니다. <%=vo.getUserId() + "님이시군요!" %></h2>
 	<table border="1">
 		<tr>
