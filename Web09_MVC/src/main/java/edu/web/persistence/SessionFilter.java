@@ -30,23 +30,18 @@ public class SessionFilter extends HttpFilter implements Filter {
 	@Override
 	protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
-		String reqURI = req.getRequestURI();
-    	String reqMethod = req.getMethod();
-    	String reqBoardId = req.getParameter("boardId");
-//    	System.out.println("reqURI = " + reqURI);
-//    	System.out.println("reqMethod = " + reqMethod);
-//    	System.out.println("reqBoardId = " + reqBoardId);
     	
 		HttpSession session = req.getSession();
 		
 		String userId = (String) session.getAttribute("userId");
-		if(reqURI.contains(MAIN)) {
-			res.sendRedirect(MAIN + EXTENSION);
-		} else if(userId == null) {
+		String reqURI = req.getRequestURI();
+		System.out.println(reqURI);
+		session.setAttribute("reqURI", reqURI);
+		session.setAttribute("boardId", req.getParameter("boardId"));
+		if(userId == null) { // session이 없으면
 //			RequestDispatcher dispatcher = req.getRequestDispatcher(LOGIN + SERVER_EXTENSION);
-			session.setAttribute("reqURIF", reqURI);
-			System.out.println(""+ reqURI);
-			session.setAttribute("reqBoardId", reqBoardId);
+//			req.setAttribute("msg", "로그인이 필요합니다.");
+//			System.out.println(req.getAttribute("msg"));
 //			dispatcher.forward(req, res);
 			res.sendRedirect(LOGIN + SERVER_EXTENSION);
 			return;

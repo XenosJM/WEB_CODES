@@ -7,9 +7,9 @@
 <title>게시글을 등록해 보아요</title>
 </head>
 	<%
-		if (session.getAttribute("userId") == null) {
-		out.println("<script>alert('비정상적인 접근경로 입니다!!');</script>");
-		out.println("<script>location.href='login.do'</script>");
+		String msg = (String) request.getAttribute("msg");
+		if (msg != null) {
+			out.print("<script>alert('" + msg + "');</script>");
 		}
 	%>
 <body>

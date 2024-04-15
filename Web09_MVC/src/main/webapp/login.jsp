@@ -7,11 +7,11 @@
 <meta charset="UTF-8">
 <title>로그인 하숑</title>
 </head>
-	<%
-		String msg = request.getParameter("msg");
+	<%	
+	String msg = request.getParameter("msg");
 		if(msg != null){
-		out.print("<script>alert('" + msg + "');</script>");
-		}
+			out.print("<script>alert('" + msg + "');</script>");
+			}
 	%>
 <body>
 	<h2>로그인</h2>

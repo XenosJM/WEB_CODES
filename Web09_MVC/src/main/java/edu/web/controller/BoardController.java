@@ -19,6 +19,9 @@ import edu.web.persistence.BoardDAOImple;
 import edu.web.persistence.MemberDAO;
 import edu.web.persistence.MemberDAOImple;
 import edu.web.persistence.ReplyDAO;
+import edu.web.persistence.ReplyDAOImple;
+import edu.web.util.PageCriteria;
+import edu.web.util.PageMaker;
 
 @WebServlet("*.do") // *.do : ~.do로 선언된 HTTP 호출에 대해 반응
 public class BoardController extends HttpServlet {
@@ -34,12 +37,10 @@ public class BoardController extends HttpServlet {
 	private static final String EXTENSION = ".jsp";
 	private static final String SERVER_EXTENSION = ".do";
 	private BoardDAO boardDao;
-	private ReplyDAO replyDao;
 	private MemberDAO memberDao;
-
+	
 	public BoardController() {
 		boardDao = BoardDAOImple.getInstance();
-		replyDao = ReplyDAOImple.getInstance();
 		memberDao = MemberDAOImple.getInstance();
 	}
 
@@ -99,44 +100,42 @@ public class BoardController extends HttpServlet {
 //    	System.out.println("reqURIori = " + reqURIori);
 		// false : session을 새로 생성안하고 기존 세션(세션필터)를 불러오겠다는 뜻
 		HttpSession session = req.getSession(false);
-		if (session.getAttribute("userId") != null) { // TODO null일경우 해야하는문제가 생겼음
+		if (reqMethod.equals("GET")) {
+			res.sendRedirect(path + "?msg=" + URLEncoder.encode("로그인 해주세욧!", "UTF-8"));
+		} else if (session.getAttribute("userId") == null) { 
 			MemberVO vo = memberDao.select(userIdPara);
-			if (vo.getUserId() != null) {
-				if (userIdPara.equals(vo.getUserId()) && password.equals(vo.getUserPassword())) {
+			if (vo != null) {
+				String id = vo.getUserId();
+				String pw = vo.getUserPassword();
+				if (userIdPara.equals(id) && password.equals(pw)) {
 					session.setMaxInactiveInterval(600);
 					session.setAttribute("userId", vo.getUserId());
-					String reqURIF = (String) session.getAttribute("reqURIF");
-					String[] parts = reqURIF.split("/"); // / 기준으로 분할
-					String lastPart = parts[2]; // 분할 기준 3번째 값
-//	    			System.out.println(parts.toString());
-//	    			System.out.println("toString : " + session.getAttribute("reqURIF").toString());
-//	    			System.out.println(reqURIF);
 					String msg = "로그인 되셧습니다!";
 					req.setAttribute("msg", msg);
-					req.setAttribute("reqBoardId", session.getAttribute("reqBoardId"));
-					RequestDispatcher dispatcher = req.getRequestDispatcher(lastPart);
-//	    			+"?msg=" + URLEncoder.encode("로그인 되셨습니다.!", "UTF-8")
-					dispatcher.forward(req, res);
+					String reqURI = (String) session.getAttribute("reqURI");
+					System.out.println("login() reqURI = " + reqURI);
+					if(reqURI.contains(LIST)) {
+						path = LIST + EXTENSION;
+						RequestDispatcher dispatcher = req.getRequestDispatcher(path);
+						dispatcher.forward(req, res);	
+					} else if(reqURI.contains(DETAIL)) {
+						path = DETAIL + SERVER_EXTENSION;
+						RequestDispatcher dispatcher = req.getRequestDispatcher(path);
+						dispatcher.forward(req, res);
+					}
 				} else {
-					res.sendRedirect(path + "?msg=" + URLEncoder.encode("아이디 혹은 비밀번호를 확인해주세요", "UTF-8"));
+					String msg = "아이디 또는 비밀번호가 틀렸습니다.";
+					req.setAttribute("msg", msg);
+					res.sendRedirect(path);
 				} // end id & password 체크
 			} else {
-				res.sendRedirect(path + "?msg=" + URLEncoder.encode("아이디 혹은 비밀번호를 확인해주세요", "UTF-8"));
+				String msg = "회원이 아니시네요.";
+				req.setAttribute("msg", msg);
+				res.sendRedirect(path);
 			} // end null체크
 		} else {
-		// 로그인이 필요한 서비스를 요청한 URI
-//    		String reqURIF = (String) req.getAttribute("reqURIF");
-		// 게시판 상세보기시 로그인필요, 로그인후 게시판 상세보기에 필요한 게시글 번호
-//    		String reqBoardId = req.getParameter("boardId");
-//    		System.out.println("login, reqURIF = " + reqURIF);
-//    		System.out.println("login, reqBoardId = " + reqBoardId);
-//    		session.setAttribute("reqURIF", reqURIF);
-//    		System.out.println(session.getAttribute(reqURIF));
-//    		session.setAttribute("reqBoardId", reqBoardId);
-		res.sendRedirect(path); // + "?msg=" + URLEncoder.encode("로그인 해주세욧!", "UTF-8")
-	
+			res.sendRedirect(path);
 		}
-
 	} // end loginDO()
 
 //    private void loginPOST(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -146,10 +145,26 @@ public class BoardController extends HttpServlet {
 	// 전체 게시판 내용(list)을 DB에서 가져오고, 그 데이터를 list.jsp 페이지에 전송
 	private void list(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		System.out.println("list()");
-		List<BoardVO> vo = boardDao.select();
+//		List<BoardVO> vo = boardDao.select(); // list로 변경해야함
+		String page = req.getParameter("page");
+		PageCriteria criteria = new PageCriteria();
+		if(page != null) {
+			criteria.setPage(Integer.parseInt(page));			
+		}
+		List<BoardVO> vo = boardDao.select(criteria);
 		String path = BOARD_URL + LIST + EXTENSION;
 		RequestDispatcher dispatcher = req.getRequestDispatcher(path);
 		req.setAttribute("vo", vo);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCriteria(criteria);
+		pageMaker.setTotalCount(boardDao.getTotalCount());
+		pageMaker.setPageData();
+		System.out.println("전체 게시글 수  = " + pageMaker.getTotalCount());
+		System.out.println("현재 선택된 페이지 = " + criteria.getPage());
+		System.out.println("한 페이지 당 게시글 수 = " + pageMaker.getNumsOfPageLinks());
+		System.out.println("시작 페이지 링크 번호 = " + pageMaker.getStartPageNo());
+		System.out.println("끝 페이지 링크 번호 = " + pageMaker.getEndPageNo());
+		req.setAttribute("pageMaker", pageMaker);
 		dispatcher.forward(req, res);
 	} // end list()
 
@@ -163,19 +178,22 @@ public class BoardController extends HttpServlet {
 		// TODO : register.jsp에서 form으로 전송된 데이터를 DB테이블에 등록후 index.jsp로 이동
 		System.out.println("registerPOST()");
 		String path = MAIN + EXTENSION;
-		String title = (String) req.getParameter("title");
-		String content = (String) req.getParameter("content");
-		String userId = (String) req.getParameter("userId");
+		String title = req.getParameter("title");
+		String content = req.getParameter("content");
+		String userId = req.getParameter("userId");
 		System.out.println("title : " + title + ", content : " + content + ", userId : " + userId);
 		BoardVO vo = new BoardVO(0, title, content, userId, null);
 		vo.setBoardTitle(title);
 		int result = boardDao.insert(vo);
 		if (result == 1) {
 			res.sendRedirect(path);
-		} else {
-			PrintWriter out = res.getWriter();
-			out.println("<script>alert('게시글 등록에 실패했습니다. 빠졌네요. 데이터가');</script>");
 		}
+//		else {
+//			String msg = "게시글 등록에 실패했습니다.";
+//			RequestDispatcher dispatcher = req.getRequestDispatcher(path);
+//			req.setAttribute("msg", msg);
+//			dispatcher.forward(req, res);
+//		}
 
 	}// end registerPOST()
 
@@ -184,14 +202,9 @@ public class BoardController extends HttpServlet {
 		// userID를 이용해 조회 데이터 전송
 		System.out.println("detail()");
 		String path = BOARD_URL + DETAIL + EXTENSION; // BOARD_URL 제거
-		HttpSession session = req.getSession(false);
+//		HttpSession session = req.getSession(false);
 //		session.removeAttribute("reqURIF");
-		int boardId;
-		if (session != null) {
-			boardId = Integer.parseInt((String) session.getAttribute("reqBoardId"));
-		} else {
-			boardId = Integer.parseInt(req.getParameter("boardId"));
-		}
+		int boardId = Integer.parseInt(req.getParameter("boardId"));
 		BoardVO vo = boardDao.select(boardId);
 		RequestDispatcher dispatcher = req.getRequestDispatcher(path);
 		req.setAttribute("vo", vo);
@@ -220,7 +233,8 @@ public class BoardController extends HttpServlet {
 		BoardVO vo = new BoardVO(boardId, title, content, userId, null);
 		int result = boardDao.update(vo);
 		if (result == 1) {
-			detail(req, res);
+			String path = DETAIL + SERVER_EXTENSION;
+			res.sendRedirect(path + "?boardId=" + boardId);
 		} else {
 			PrintWriter out = res.getWriter();
 			out.println("<script>alert('게시글 수정에 실패했습니다. 빠졌네요. 데이터가');</script>");
