@@ -21,6 +21,15 @@ public class ReplyVO {
 		this.replyContent = replyContent;
 		this.replyDateCreated = replyDateCreated;
 	}
+	
+	public ReplyVO(int replyId, int boardId, String userId, String replyContent,
+			Date replyDateCreated) {
+		this.replyId = replyId;
+		this.boardId = boardId;
+		this.userId = userId;
+		this.replyContent = replyContent;
+		this.replyDateCreated = replyDateCreated;
+	}
 
 	public int getReplyId() {
 		return replyId;

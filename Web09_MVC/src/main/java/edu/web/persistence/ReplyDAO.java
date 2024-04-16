@@ -9,7 +9,7 @@ public interface ReplyDAO {
 	// 댓글 등록
 	public abstract int insert(ReplyVO vo);
 	// 댓글 전체 조회(게시글 누를시 같이 수행)
-	public abstract List<ReplyVO> select();
+	public abstract List<ReplyVO> select(int boardId);
 	// 댓글 수정
 	public abstract int update(ReplyVO vo);
 	// 댓글 삭제

@@ -14,12 +14,12 @@
 <body>
 	<%
 	String msg = (String) request.getAttribute("msg");
-		if(session.getAttribute("userId") == null) {
+		/* if(session.getAttribute("userId") == null) {
 			if (msg != null) {
 			out.print("<script>alert('" + msg + "');</script>");
 			} 
 		out.println("<script>location.href='login.do'</script>");
-		};
+		}; */
 	request.removeAttribute("msg");
 	%>
 	<%
@@ -81,7 +81,10 @@
 
 	<script type="text/javascript">
 		$(function() {
+			getAllReplies(); // 함수 호출 코드 추가
+			
 			$('#btnAdd').click(function() {
+				
 				// $('#boardId').
 				let boardId = $('#boardId').val();
 				let userId = $('#userId').val();
@@ -101,6 +104,115 @@
 					},
 					success : function(result) {
 						console.log(result);
+					if(result == 'success'){
+						alert('댓글 입력 성공');							
+						getAllReplies();
+						}
+					}
+				}); // end ajax()
+			}); // end btnAdd.click()
+			
+			// 게시판 댓글 전체 가져오기
+			function getAllReplies(){
+				// 댓글 가져오기위한 게시글 번호
+				var boardId = $('#boardId').val();
+				
+				// url에 boardId 전송
+				var url = 'replies/all?boardId=' + boardId;
+				
+				// 가져올 데이터가 json이므로
+				// getJSON으로 파싱하는게 편함
+				$.getJSON(
+					url,
+					function(data){
+						// data : 서버에서 전송받은 list 데이터가 저장되어 있음.
+						// getJSON()에서 json 데이터는
+						// javascript object로 자동 parsing 됨
+						console.log(data);
+						console.log(url);
+					
+					let list = ''; // 댓글 데이터를 HTML에 표현할 문자열 변수
+					
+					// $(컬렉션).each() : 컬렉션 데이터를 반복문으로 꺼내는 함수
+					$(data).each(function(){
+						// this : 컬렉션의 각 인덱스 데이터를 의미
+						console.log(this);
+						// 프론트엔드의 장바구니와 유사한데 그 이유는 비동기로 처리하기 때문
+						
+						var replyDateCreated = new Date(this.replyDateCreated);
+						
+						list += '<div class="reply_item">'
+							+ '<pre>'
+							+ '<input type="hidden" id="replyId" + value="' + this.replyId +'">'
+							+ this.userId
+							+ '&nbsp;&nbsp;' // 공백
+							+ '<input type="text" id="replyContent" + value="' + this.replyContent +'">'
+							+ replyDateCreated	
+							+ '<button class="btn_update">수정</button>'
+							+ '<button class="btn_delete">삭제</button>'
+							+ '</pre>'
+							+ '</div>';
+					}); // end each()
+					
+						$('#replies').html(list);
+					}
+				); // end getJSON
+			} // end getAllReplies()
+			
+			// 수정 버튼을 클릭하면 선택된 댓글 수정
+			$('#replies').on('click', '.reply_item .btn_update', function(){
+				// this = 클릭한 요소 정보
+				console.log(this);
+				
+				// 선택된 댓글의 replyId, replyContent 값을 저장
+				// prevAll() : 선택된 노드 이전에 있는모든 형제 노드를 접근
+				var replyId = $(this).prevAll('#replyId').val();
+				var replyContent = $(this).prevAll('#replyContent').val();
+				console.log("선택된 댓글 번호 : " + replyId + ", 댓글 내용 : " + replyContent);
+				
+				// ajax로 데이터 전송해 수정기능 수행후 결과를 리턴하는 코드
+				//ajax 요청
+				$.ajax({
+					type : 'POST',
+					url : 'replies/update',
+					data : {
+						'replyId' : replyId,
+						'replyContent' : replyContent
+					},
+					success : function(result){
+						console.log(result);
+					if(result == 'success'){
+						alert('댓글 수정 성공');							
+						getAllReplies();
+						}
+					}					
+				}); // end ajax()
+			}); // end replies.on()
+			
+			// 댓글 수정
+			$('#replies').on('click', '.reply_item .btn_delete', function(){
+				// this = 클릭한 요소 정보
+				console.log(this);
+				
+				// 선택된 댓글의 replyId 값을 저장
+				// prevAll() : 선택된 노드 이전에 있는모든 형제 노드를 접근
+				var replyId = $(this).prevAll('#replyId').val();
+				console.log("선택된 댓글 번호 : " + replyId);
+				
+				// ajax로 데이터 전송해 수정기능 수행후 결과를 리턴하는 코드
+				//ajax 요청
+				$.ajax({
+					type : 'POST',
+					url : 'replies/delete',
+					data : {
+						'replyId' : replyId,
+					},
+					success : function(result){
+						console.log(result);
+						if(result == 'success'){
+						alert('댓글 삭제 성공');							
+						getAllReplies();
+						}
 					}
 				});
 			});

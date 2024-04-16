@@ -2,9 +2,12 @@ package edu.web.persistence;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.web.dbcp.connmgr.ConnMgr;
+import edu.web.domain.MemberVO;
 import edu.web.domain.ReplyVO;
 
 public class ReplyDAOImple implements ReplyDAO, ReplyQuery {
@@ -32,8 +35,7 @@ public class ReplyDAOImple implements ReplyDAO, ReplyQuery {
 			pstmt = conn.prepareStatement(SQL_INSERT_REPLY);
 			pstmt.setInt(1, vo.getBoardId());
 			pstmt.setString(2, vo.getUserId());
-			pstmt.setInt(3, 0);
-			pstmt.setString(4, vo.getReplyContent());
+			pstmt.setString(3, vo.getReplyContent());
 
 			result = pstmt.executeUpdate();
 			System.out.println("insert 성공");
@@ -47,21 +49,85 @@ public class ReplyDAOImple implements ReplyDAO, ReplyQuery {
 	}
 
 	@Override
-	public List<ReplyVO> select() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ReplyVO> select(int boardId) {
+		System.out.println("댓글 조회 시작");
+		List<ReplyVO> list = new ArrayList<>();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = ConnMgr.getConnection();
+			pstmt = conn.prepareStatement(SQL_SELECT_BY_BOARD_ID);
+			pstmt.setInt(1, boardId);
+
+			rs = pstmt.executeQuery();
+//			int replyId;
+//			int nestedReplyId;
+//			String userId;
+//			String replyContent;
+//			String replyDateCreated;
+			
+			while (rs.next()) {
+			ReplyVO vo = new ReplyVO(rs.getInt(1), boardId, rs.getString(3), rs.getString(4), rs.getTimestamp(5));
+			list.add(vo);
+			}
+			System.out.println("댓글 검색 성공");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		} finally {
+			ConnMgr.close(conn, pstmt, rs);
+		}
+
+		return list;
 	}
 
 	@Override
 	public int update(ReplyVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		 int result = 0;
+	      Connection conn = null;
+	      PreparedStatement pstmt = null;
+	      
+	      try {
+	         conn = ConnMgr.getConnection();
+	         pstmt = conn.prepareStatement(SQL_UPDATE_REPLY);
+	         pstmt.setString(1, vo.getReplyContent());
+	         pstmt.setInt(2, vo.getReplyId());
+	         
+	         result = pstmt.executeUpdate();
+	         System.out.println("reply update 성공");
+	      } catch (Exception e) {
+	         
+	         e.printStackTrace();
+	      } finally {
+	         ConnMgr.close(conn, pstmt);
+	      }
+	      return result;
+
 	}
 
 	@Override
 	public int delete(int replyId) {
-		// TODO Auto-generated method stub
-		return 0;
+		 int result = 0;
+	      Connection conn = null;
+	      PreparedStatement pstmt = null;
+	      
+	      try {
+	         conn = ConnMgr.getConnection();
+	         pstmt = conn.prepareStatement(SQL_DELETE_REPLY);
+	         pstmt.setInt(1, replyId);
+	         
+	         result = pstmt.executeUpdate();
+	         System.out.println("reply update 성공");
+	      } catch (Exception e) {
+	         
+	         e.printStackTrace();
+	      } finally {
+	         ConnMgr.close(conn, pstmt);
+	      }
+	      return result;
 	}
 
 }

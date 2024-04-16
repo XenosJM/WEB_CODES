@@ -23,21 +23,21 @@
   	<url-pattern>/*</url-pattern><!-- /*은 존재하는 모든 하위 경로 -->
   </filter-mapping>
   
-  <filter>
+  <!-- <filter>
   	<filter-name>SessionFilter</filter-name>
   	<filter-class>edu.web.persistence.SessionFilter</filter-class>
   </filter>
   
   <filter-mapping>
- 	<filter-name>SessionFilter</filter-name> <!-- 세션이 없으면 진입을 못해야 하는곳 -->
+ 	<filter-name>SessionFilter</filter-name> 세션이 없으면 진입을 못해야 하는곳
 		<url-pattern>/delete.do</url-pattern>
-		<url-pattern>/update.do</url-pattern>
+		<url-pattern>/update.do</url-pattern> 
 		<url-pattern>/detail.do</url-pattern>
 		<url-pattern>/logout.do</url-pattern>
 		<url-pattern>/register.do</url-pattern>
 		<url-pattern>/memberResult.jsp</url-pattern>
 		<url-pattern>/memberUpdate.jsp</url-pattern>
-  </filter-mapping>
+  </filter-mapping> -->
   
   
 </web-app>

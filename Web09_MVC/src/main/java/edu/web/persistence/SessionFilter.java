@@ -36,8 +36,8 @@ public class SessionFilter extends HttpFilter implements Filter {
 		String userId = (String) session.getAttribute("userId");
 		String reqURI = req.getRequestURI();
 		System.out.println(reqURI);
-		session.setAttribute("reqURI", reqURI);
-		session.setAttribute("boardId", req.getParameter("boardId"));
+//		session.setAttribute("reqURI", reqURI);
+//		session.setAttribute("boardId", req.getParameter("boardId"));
 		if(userId == null) { // session이 없으면
 //			RequestDispatcher dispatcher = req.getRequestDispatcher(LOGIN + SERVER_EXTENSION);
 //			req.setAttribute("msg", "로그인이 필요합니다.");

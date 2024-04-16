@@ -81,7 +81,7 @@ public class BoardController extends HttpServlet {
 		} else if (reqURI.contains(LOGIN + SERVER_EXTENSION)) {
 			System.out.println("login 호출 확인");
 //	    		if(reqMethod.equals("GET")) {
-			login(req, res);
+//			login(req, res);
 //	    		} // POST는 나눠야 하면 나눌것
 		}
 	} // end service()
@@ -91,52 +91,56 @@ public class BoardController extends HttpServlet {
 	// 세션이 없다면, 로그인으로 이동후(이동했을때 경로에 따라 상세보기에서이동시 게시글 번호값 전송, 그냥 로그인 버튼 눌렀을때는 또 따로)
 	// 로그인 진행(로그인 겟으로 이동해서 창을 띄워야함), 로그인 성공시 클릭했던 게시글로 이동(세션을 생성후 이동하는데 이동하는 경로는
 	// 상세검색으로 가되 전송받았던 게시글 아이디와 함께 이동해서 게시글 상세보기화면으로 이동)
-	private void login(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		System.out.println("login()");
-		String path = LOGIN + EXTENSION;
-		String reqMethod = req.getMethod();
-		String userIdPara = req.getParameter("userId");
-		String password = req.getParameter("password");
-//    	System.out.println("reqURIori = " + reqURIori);
-		// false : session을 새로 생성안하고 기존 세션(세션필터)를 불러오겠다는 뜻
-		HttpSession session = req.getSession(false);
-		if (reqMethod.equals("GET")) {
-			res.sendRedirect(path + "?msg=" + URLEncoder.encode("로그인 해주세욧!", "UTF-8"));
-		} else if (session.getAttribute("userId") == null) { 
-			MemberVO vo = memberDao.select(userIdPara);
-			if (vo != null) {
-				String id = vo.getUserId();
-				String pw = vo.getUserPassword();
-				if (userIdPara.equals(id) && password.equals(pw)) {
-					session.setMaxInactiveInterval(600);
-					session.setAttribute("userId", vo.getUserId());
-					String msg = "로그인 되셧습니다!";
-					req.setAttribute("msg", msg);
-					String reqURI = (String) session.getAttribute("reqURI");
-					System.out.println("login() reqURI = " + reqURI);
-					if(reqURI.contains(LIST)) {
-						path = LIST + EXTENSION;
-						RequestDispatcher dispatcher = req.getRequestDispatcher(path);
-						dispatcher.forward(req, res);	
-					} else if(reqURI.contains(DETAIL)) {
-						path = DETAIL + SERVER_EXTENSION;
-						RequestDispatcher dispatcher = req.getRequestDispatcher(path);
-						dispatcher.forward(req, res);
-					}
-				} else {
-					String msg = "아이디 또는 비밀번호가 틀렸습니다.";
-					req.setAttribute("msg", msg);
-					res.sendRedirect(path);
-				} // end id & password 체크
-			} else {
-				String msg = "회원이 아니시네요.";
-				req.setAttribute("msg", msg);
-				res.sendRedirect(path);
-			} // end null체크
-		} else {
-			res.sendRedirect(path);
-		}
-	} // end loginDO()
+//	private void login(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+//		System.out.println("login()");
+//		String path = LOGIN + EXTENSION;
+//		String reqMethod = req.getMethod();
+//		String userIdPara = req.getParameter("userId");
+//		String password = req.getParameter("password");
+////    	System.out.println("reqURIori = " + reqURIori);
+//		// false : session을 새로 생성안하고 기존 세션(세션필터)를 불러오겠다는 뜻
+//		HttpSession session = req.getSession(false);
+////		if (reqMethod.equals("GET")) {
+////			res.sendRedirect(path + "?msg=" + URLEncoder.encode("로그인 해주세욧!", "UTF-8"));
+//		 if (session.getAttribute("userId") == null) { 
+//			MemberVO vo = memberDao.select(userIdPara);
+//			if (vo != null) {
+//				String id = vo.getUserId();
+//				String pw = vo.getUserPassword();
+//				if (userIdPara.equals(id) && password.equals(pw)) {
+//					session.setMaxInactiveInterval(600);
+//					session.setAttribute("userId", vo.getUserId());
+//					String msg = "로그인 되셧습니다!";
+//					req.setAttribute("msg", msg);
+//					String reqURI = (String) session.getAttribute("reqURI");
+//					System.out.println("login() reqURI = " + reqURI);
+//					if(reqURI.contains(LIST)) {
+//						path = LIST + EXTENSION;
+//						RequestDispatcher dispatcher = req.getRequestDispatcher(path);
+//						dispatcher.forward(req, res);	
+//					} else if(reqURI.contains(DETAIL)) {
+//						path = DETAIL + SERVER_EXTENSION;
+//						RequestDispatcher dispatcher = req.getRequestDispatcher(path);
+//						dispatcher.forward(req, res);
+//					}
+//				} else {
+//					String msg = "아이디 또는 비밀번호가 틀렸습니다.";
+//					req.setAttribute("msg", msg);
+//					path = DETAIL + EXTENSION;
+//					res.sendRedirect(path);
+//				} // end id & password 체크
+//			} else {
+//				String msg = "회원이 아니시네요.";
+//				req.setAttribute("msg", msg);
+//				path = DETAIL + EXTENSION;
+//				res.sendRedirect(path);
+//			} // end null체크
+//		} 
+//		 else {
+//			path = DETAIL + EXTENSION;
+//			res.sendRedirect(path);
+//		}
+//	} // end loginDO()
 
 //    private void loginPOST(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 //    	
@@ -146,17 +150,21 @@ public class BoardController extends HttpServlet {
 	private void list(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		System.out.println("list()");
 //		List<BoardVO> vo = boardDao.select(); // list로 변경해야함
-		String page = req.getParameter("page");
+		// 현재 페이지를 저장하기 위한 변수 이 시점의 page값은 null
+		String page = req.getParameter("page"); 
+		// page와 한 페이지에 최대로 나타낼 기본값이 세팅되어있는 기본 생성자로 객체 생성 
 		PageCriteria criteria = new PageCriteria();
-		if(page != null) {
-			criteria.setPage(Integer.parseInt(page));			
+		if(page != null) { 
+			// 변수 page값이 null이 아니라면 criteria객체에 현재 페이지값을 저장 
+			criteria.setPage(Integer.parseInt(page));		
 		}
+		
 		List<BoardVO> vo = boardDao.select(criteria);
 		String path = BOARD_URL + LIST + EXTENSION;
 		RequestDispatcher dispatcher = req.getRequestDispatcher(path);
 		req.setAttribute("vo", vo);
 		PageMaker pageMaker = new PageMaker();
-		pageMaker.setCriteria(criteria);
+		pageMaker.setCriteria(criteria); // 기본값 
 		pageMaker.setTotalCount(boardDao.getTotalCount());
 		pageMaker.setPageData();
 		System.out.println("전체 게시글 수  = " + pageMaker.getTotalCount());

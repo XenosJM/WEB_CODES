@@ -47,7 +47,7 @@ li {
 				<tr onclick="location.href='detail.do?boardId=${vo.boardId }'">
 					<!-- 내가 한방식 -->
 					<td>${vo.boardId }</td>
-					<td><a href="register.do?boardId=${vo.boardId }">${vo.boardTitle }</a></td>
+					<td><a href="detail.do?boardId=${vo.boardId }">${vo.boardTitle }</a></td>
 					<td>${vo.userId }</td>
 					<td>${vo.boardDateCreated }</td>
 				</tr>
