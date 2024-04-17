@@ -119,7 +119,7 @@
 				
 				// url에 boardId 전송
 				var url = 'replies/all?boardId=' + boardId;
-				
+			
 				// 가져올 데이터가 json이므로
 				// getJSON으로 파싱하는게 편함
 				$.getJSON(

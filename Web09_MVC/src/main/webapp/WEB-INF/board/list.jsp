@@ -67,8 +67,7 @@ li {
 		</c:if>
 	</ul>
 	<a href="register.do"><input type="button" value="게시글 작성"></a>
-	<button onclick="location.href='logout.do'"
-		value="<%session.invalidate();%>">로그아웃</button>
+	<button onclick="location.href='login.do'">로그인</button>
 </body>
 </html>
 

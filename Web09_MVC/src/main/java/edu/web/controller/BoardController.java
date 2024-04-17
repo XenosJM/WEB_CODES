@@ -2,9 +2,7 @@ package edu.web.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLEncoder;
 import java.util.List;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,13 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import edu.web.domain.BoardVO;
-import edu.web.domain.MemberVO;
 import edu.web.persistence.BoardDAO;
 import edu.web.persistence.BoardDAOImple;
-import edu.web.persistence.MemberDAO;
-import edu.web.persistence.MemberDAOImple;
-import edu.web.persistence.ReplyDAO;
-import edu.web.persistence.ReplyDAOImple;
 import edu.web.util.PageCriteria;
 import edu.web.util.PageMaker;
 
@@ -27,25 +20,27 @@ import edu.web.util.PageMaker;
 public class BoardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String BOARD_URL = "WEB-INF/board/";
+	private static final String LOGIN = "login";
 	private static final String MAIN = "index";
 	private static final String LIST = "list";
 	private static final String REGISTER = "register";
 	private static final String DETAIL = "detail";
 	private static final String UPDATE = "update";
 	private static final String DELETE = "delete";
-	private static final String LOGIN = "login";
 	private static final String EXTENSION = ".jsp";
 	private static final String SERVER_EXTENSION = ".do";
-	private BoardDAO boardDao;
-	private MemberDAO memberDao;
+	private static final String MEMBER_SERVER_EXTENSION = ".login";
+	private BoardDAO dao;
+	
 	
 	public BoardController() {
-		boardDao = BoardDAOImple.getInstance();
-		memberDao = MemberDAOImple.getInstance();
+		dao = BoardDAOImple.getInstance();
+		
 	}
 
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		System.out.println("보드 컨트롤러 실행");
 		String reqURI = req.getRequestURI();
 		String reqMethod = req.getMethod();
 		System.out.println("호출 경로 : " + reqURI); // : 요청이 발생됬을때 요청을 한 경로
@@ -78,73 +73,17 @@ public class BoardController extends HttpServlet {
 			if (reqMethod.equals("POST")) {
 				deletePOST(req, res);
 			} // end delete
+		
 		} else if (reqURI.contains(LOGIN + SERVER_EXTENSION)) {
-			System.out.println("login 호출 확인");
-//	    		if(reqMethod.equals("GET")) {
-//			login(req, res);
-//	    		} // POST는 나눠야 하면 나눌것
+			if (reqMethod.equals("GET")) {
+				res.sendRedirect(LOGIN + EXTENSION);
+			}
 		}
 	} // end service()
 
-	// 게시글 클릭시 로그인창으로 이동후 로그인 성공시 다시 클릭했던 게시글로 이동(뭔짓을 한거지 네이버는)
-	// 비회원으로 게시판 둘러보기 가능(세션이 있던 없던 가능하단 소리), 게시글 클릭시 세션체크후 세션이 있다면, 게시글로 이동
-	// 세션이 없다면, 로그인으로 이동후(이동했을때 경로에 따라 상세보기에서이동시 게시글 번호값 전송, 그냥 로그인 버튼 눌렀을때는 또 따로)
-	// 로그인 진행(로그인 겟으로 이동해서 창을 띄워야함), 로그인 성공시 클릭했던 게시글로 이동(세션을 생성후 이동하는데 이동하는 경로는
-	// 상세검색으로 가되 전송받았던 게시글 아이디와 함께 이동해서 게시글 상세보기화면으로 이동)
-//	private void login(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-//		System.out.println("login()");
-//		String path = LOGIN + EXTENSION;
-//		String reqMethod = req.getMethod();
-//		String userIdPara = req.getParameter("userId");
-//		String password = req.getParameter("password");
-////    	System.out.println("reqURIori = " + reqURIori);
-//		// false : session을 새로 생성안하고 기존 세션(세션필터)를 불러오겠다는 뜻
-//		HttpSession session = req.getSession(false);
-////		if (reqMethod.equals("GET")) {
-////			res.sendRedirect(path + "?msg=" + URLEncoder.encode("로그인 해주세욧!", "UTF-8"));
-//		 if (session.getAttribute("userId") == null) { 
-//			MemberVO vo = memberDao.select(userIdPara);
-//			if (vo != null) {
-//				String id = vo.getUserId();
-//				String pw = vo.getUserPassword();
-//				if (userIdPara.equals(id) && password.equals(pw)) {
-//					session.setMaxInactiveInterval(600);
-//					session.setAttribute("userId", vo.getUserId());
-//					String msg = "로그인 되셧습니다!";
-//					req.setAttribute("msg", msg);
-//					String reqURI = (String) session.getAttribute("reqURI");
-//					System.out.println("login() reqURI = " + reqURI);
-//					if(reqURI.contains(LIST)) {
-//						path = LIST + EXTENSION;
-//						RequestDispatcher dispatcher = req.getRequestDispatcher(path);
-//						dispatcher.forward(req, res);	
-//					} else if(reqURI.contains(DETAIL)) {
-//						path = DETAIL + SERVER_EXTENSION;
-//						RequestDispatcher dispatcher = req.getRequestDispatcher(path);
-//						dispatcher.forward(req, res);
-//					}
-//				} else {
-//					String msg = "아이디 또는 비밀번호가 틀렸습니다.";
-//					req.setAttribute("msg", msg);
-//					path = DETAIL + EXTENSION;
-//					res.sendRedirect(path);
-//				} // end id & password 체크
-//			} else {
-//				String msg = "회원이 아니시네요.";
-//				req.setAttribute("msg", msg);
-//				path = DETAIL + EXTENSION;
-//				res.sendRedirect(path);
-//			} // end null체크
-//		} 
-//		 else {
-//			path = DETAIL + EXTENSION;
-//			res.sendRedirect(path);
-//		}
-//	} // end loginDO()
+	
 
-//    private void loginPOST(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-//    	
-//    } // end loginPOST()
+	
 
 	// 전체 게시판 내용(list)을 DB에서 가져오고, 그 데이터를 list.jsp 페이지에 전송
 	private void list(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -159,13 +98,13 @@ public class BoardController extends HttpServlet {
 			criteria.setPage(Integer.parseInt(page));		
 		}
 		
-		List<BoardVO> vo = boardDao.select(criteria);
+		List<BoardVO> vo = dao.select(criteria);
 		String path = BOARD_URL + LIST + EXTENSION;
 		RequestDispatcher dispatcher = req.getRequestDispatcher(path);
 		req.setAttribute("vo", vo);
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCriteria(criteria); // 기본값 
-		pageMaker.setTotalCount(boardDao.getTotalCount());
+		pageMaker.setTotalCount(dao.getTotalCount());
 		pageMaker.setPageData();
 		System.out.println("전체 게시글 수  = " + pageMaker.getTotalCount());
 		System.out.println("현재 선택된 페이지 = " + criteria.getPage());
@@ -178,8 +117,14 @@ public class BoardController extends HttpServlet {
 
 	private void registerGET(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		System.out.println("registerGET()");
-		String path = REGISTER + EXTENSION;
-		res.sendRedirect(path);
+		String path = BOARD_URL + REGISTER + EXTENSION;
+		HttpSession session = req.getSession(false);
+		if(session.getAttribute("userId")!=null) {
+			res.sendRedirect(path);			
+		} else {
+			path = LOGIN + EXTENSION;
+			res.sendRedirect(path);
+		}
 	} // end registerGET()
 
 	private void registerPOST(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -192,7 +137,7 @@ public class BoardController extends HttpServlet {
 		System.out.println("title : " + title + ", content : " + content + ", userId : " + userId);
 		BoardVO vo = new BoardVO(0, title, content, userId, null);
 		vo.setBoardTitle(title);
-		int result = boardDao.insert(vo);
+		int result = dao.insert(vo);
 		if (result == 1) {
 			res.sendRedirect(path);
 		}
@@ -213,7 +158,7 @@ public class BoardController extends HttpServlet {
 //		HttpSession session = req.getSession(false);
 //		session.removeAttribute("reqURIF");
 		int boardId = Integer.parseInt(req.getParameter("boardId"));
-		BoardVO vo = boardDao.select(boardId);
+		BoardVO vo = dao.select(boardId);
 		RequestDispatcher dispatcher = req.getRequestDispatcher(path);
 		req.setAttribute("vo", vo);
 		dispatcher.forward(req, res);
@@ -224,7 +169,7 @@ public class BoardController extends HttpServlet {
 		System.out.println("updateGET()");
 		String path = BOARD_URL + UPDATE + EXTENSION;
 		int boardId = Integer.parseInt(req.getParameter("boardId"));
-		BoardVO vo = boardDao.select(boardId);
+		BoardVO vo = dao.select(boardId);
 		RequestDispatcher dispatcher = req.getRequestDispatcher(path);
 		req.setAttribute("vo", vo);
 		dispatcher.forward(req, res);
@@ -239,9 +184,9 @@ public class BoardController extends HttpServlet {
 		String content = req.getParameter("content");
 		String userId = req.getParameter("userId");
 		BoardVO vo = new BoardVO(boardId, title, content, userId, null);
-		int result = boardDao.update(vo);
+		int result = dao.update(vo);
 		if (result == 1) {
-			String path = DETAIL + SERVER_EXTENSION;
+			String path = BOARD_URL + DETAIL + SERVER_EXTENSION;
 			res.sendRedirect(path + "?boardId=" + boardId);
 		} else {
 			PrintWriter out = res.getWriter();
@@ -255,7 +200,7 @@ public class BoardController extends HttpServlet {
 		System.out.println("deletePOST()");
 		String path = MAIN + EXTENSION;
 		int boardId = Integer.parseInt(req.getParameter("boardId"));
-		int result = boardDao.delete(boardId);
+		int result = dao.delete(boardId);
 		if (result == 1) {
 			res.sendRedirect(path);
 		} else {

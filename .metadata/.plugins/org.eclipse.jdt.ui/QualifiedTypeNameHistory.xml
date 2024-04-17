@@ -35,9 +35,6 @@
     <fullyQualifiedTypeName name="edu.web.persistence.SessionFilter"/>
     <fullyQualifiedTypeName name="edu.web.persistence.MemberDAO"/>
     <fullyQualifiedTypeName name="edu.web.persistence.MemberQuery"/>
-    <fullyQualifiedTypeName name="edu.web.domain.MemberVO"/>
-    <fullyQualifiedTypeName name="edu.web.persistence.MemberDAOImple"/>
-    <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
     <fullyQualifiedTypeName name="java.net.URLEncoder"/>
     <fullyQualifiedTypeName name="javax.servlet.annotation.WebFilter"/>
     <fullyQualifiedTypeName name="edu.web.util.PageCriteria"/>
@@ -59,4 +56,8 @@
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="edu.web.domain.ReplyVO"/>
+    <fullyQualifiedTypeName name="javax.servlet.RequestDispatcher"/>
+    <fullyQualifiedTypeName name="edu.web.persistence.MemberDAOImple"/>
+    <fullyQualifiedTypeName name="edu.web.domain.MemberVO"/>
+    <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
 </qualifiedTypeNameHistroy>
