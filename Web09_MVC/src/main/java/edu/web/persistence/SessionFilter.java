@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 public class SessionFilter extends HttpFilter implements Filter {
    private static final String LOGIN = "login";    
+   private static final String DETAIL = "detail";
    private static final String EXTENSION = ".jsp";
    private static final String MEMBER_SERVER_EXTENSION = ".login";
    BoardDAO dao = BoardDAOImple.getInstance();
@@ -28,21 +29,22 @@ public class SessionFilter extends HttpFilter implements Filter {
 	protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
     	
-		HttpSession session = req.getSession();
-		session.removeAttribute("msg");
+		HttpSession session = req.getSession(false);
+		if(session.getAttribute("msg")!=null) {
+			session.removeAttribute("msg");
+		}
 		String reqURI = req.getRequestURI();
 		System.out.println("sessionFilter reqURI = " + reqURI);
+		
 		if(!reqURI.contains(MEMBER_SERVER_EXTENSION)) {
 			session.setAttribute("reqURI", reqURI);
 			System.out.println("session reqURI = " + session.getAttribute("reqURI"));
 		}
-//		session.setAttribute("reqURI", reqURI);
-//		session.setAttribute("boardId", req.getParameter("boardId"));
-		if(session.getAttribute("userId") == null) { // session이 없으면
-//			RequestDispatcher dispatcher = req.getRequestDispatcher(LOGIN + SERVER_EXTENSION);
-//			req.setAttribute("msg", "로그인이 필요합니다.");
-//			System.out.println(req.getAttribute("msg"));
-//			dispatcher.forward(req, res);
+		if(reqURI.contains(DETAIL) && session.getAttribute("boardId")==null){
+			session.setAttribute("boardId", req.getParameter("boardId"));
+			System.out.println("req boardId = " + req.getParameter("boardId") + ", session boardId = " + session.getAttribute("boardId"));
+		}
+		if(session.getAttribute("userId") == null) { 
 			String msg = "로그인이 필요한 페이지입니다.";
 			session.setAttribute("msg", msg);
 			String path = LOGIN + EXTENSION;

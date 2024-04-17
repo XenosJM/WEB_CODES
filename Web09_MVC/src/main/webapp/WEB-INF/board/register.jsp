@@ -17,7 +17,7 @@
 	<form action="register.do" Method="post">
 		<input name="title" placeholder="제목을 입력해주세요" required="required">
 		<input name="content" placeholder="게시글 내용을 입력하세요" required="required" style="width: 300px;">
-		<input name="userId" placeholder="이름을 입력해주세요" required="required">
+		<input name="userId" required="required" value="<%=session.getAttribute("userId") %>">
 		<input type="submit" value="등록하기">
 	</form>
 

@@ -117,14 +117,20 @@ public class BoardController extends HttpServlet {
 
 	private void registerGET(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		System.out.println("registerGET()");
-		String path = BOARD_URL + REGISTER + EXTENSION;
+//		String path = BOARD_URL + REGISTER + EXTENSION;
+		System.out.println("여기?");
 		HttpSession session = req.getSession(false);
-		if(session.getAttribute("userId")!=null) {
-			res.sendRedirect(path);			
-		} else {
-			path = LOGIN + EXTENSION;
-			res.sendRedirect(path);
-		}
+		System.out.println("요깅?");
+		if (session.getAttribute("userId") != null) {
+			System.out.println(session.getAttribute("userId"));
+			System.out.println("체크통과?");
+			String path = REGISTER + SERVER_EXTENSION;
+	        res.sendRedirect(path); 
+	        return;
+	    } else {
+	    	String path = LOGIN + EXTENSION;
+	        res.sendRedirect(path);
+	    }
 	} // end registerGET()
 
 	private void registerPOST(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -136,17 +142,20 @@ public class BoardController extends HttpServlet {
 		String userId = req.getParameter("userId");
 		System.out.println("title : " + title + ", content : " + content + ", userId : " + userId);
 		BoardVO vo = new BoardVO(0, title, content, userId, null);
+		HttpSession session = req.getSession(false);
 		vo.setBoardTitle(title);
-		int result = dao.insert(vo);
-		if (result == 1) {
-			res.sendRedirect(path);
+		vo.setBoardContent(content);
+		vo.setUserId((String) session.getAttribute(userId));
+		if(vo.getUserId()==null) {
+			String msg = "게시글 등록에 실패했습니다.";
+			req.setAttribute("msg", msg);
+			res.sendRedirect(MAIN + EXTENSION);
+		} else {
+			int result = dao.insert(vo);
+			if (result == 1) {
+				res.sendRedirect(path);
+			}
 		}
-//		else {
-//			String msg = "게시글 등록에 실패했습니다.";
-//			RequestDispatcher dispatcher = req.getRequestDispatcher(path);
-//			req.setAttribute("msg", msg);
-//			dispatcher.forward(req, res);
-//		}
 
 	}// end registerPOST()
 
@@ -155,9 +164,9 @@ public class BoardController extends HttpServlet {
 		// userID를 이용해 조회 데이터 전송
 		System.out.println("detail()");
 		String path = BOARD_URL + DETAIL + EXTENSION; // BOARD_URL 제거
-//		HttpSession session = req.getSession(false);
+		HttpSession session = req.getSession(false);
 //		session.removeAttribute("reqURIF");
-		int boardId = Integer.parseInt(req.getParameter("boardId"));
+		int boardId = Integer.parseInt((String) session.getAttribute("boardId"));
 		BoardVO vo = dao.select(boardId);
 		RequestDispatcher dispatcher = req.getRequestDispatcher(path);
 		req.setAttribute("vo", vo);
