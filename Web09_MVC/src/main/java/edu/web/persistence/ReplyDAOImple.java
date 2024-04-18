@@ -58,7 +58,7 @@ public class ReplyDAOImple implements ReplyDAO, ReplyQuery {
 		
 		try {
 			conn = ConnMgr.getConnection();
-			pstmt = conn.prepareStatement(SQL_SELECT_BY_BOARD_ID);
+			pstmt = conn.prepareStatement(SQL_SELECT_REPLY);
 			pstmt.setInt(1, boardId);
 
 			rs = pstmt.executeQuery();
@@ -69,7 +69,7 @@ public class ReplyDAOImple implements ReplyDAO, ReplyQuery {
 //			String replyDateCreated;
 			
 			while (rs.next()) {
-			ReplyVO vo = new ReplyVO(rs.getInt(1), boardId, rs.getString(3), rs.getString(4), rs.getTimestamp(5));
+			ReplyVO vo = new ReplyVO(rs.getInt(1), boardId, rs.getString(3), rs.getString(4), rs.getTimestamp(5), rs.getInt(6));
 			list.add(vo);
 			}
 			System.out.println("댓글 검색 성공");

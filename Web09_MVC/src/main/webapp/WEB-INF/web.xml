@@ -32,8 +32,8 @@
  	<filter-name>SessionFilter</filter-name> 
 		<url-pattern>/delete.do</url-pattern>
 		<url-pattern>/update.do</url-pattern> 
+		<url-pattern>/list.do</url-pattern>
 		<url-pattern>/detail.do</url-pattern>
-		<url-pattern>/logout.do</url-pattern>
 		<url-pattern>/register.do</url-pattern>
   </filter-mapping>
   

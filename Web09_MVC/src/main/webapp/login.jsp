@@ -15,10 +15,11 @@
 	%>
 <body>
 	<h2>로그인</h2>
-	<form action="userCheck.login" Method="post">
-	<input type="text" name="userId" required="required" placeholder="아이디를 입력해 주세요"><br>
-	<input type="password" name="password" required="required" placeholder="비밀번호를 입력해 주세요"><br>
-	<input type="submit" value="로그인">
+	<form action="login.login" Method="post">
+		<input type="text" name="userId" required="required" placeholder="아이디를 입력해 주세요"><br>
+		<input type="password" name="password" required="required" placeholder="비밀번호를 입력해 주세요"><br>
+		<input type="hidden" name="targetURL" value="${targetURL }">
+		<input type="submit" value="로그인">
 	</form>
 </body>
 </html>

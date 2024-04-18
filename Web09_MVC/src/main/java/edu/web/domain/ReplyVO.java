@@ -5,23 +5,23 @@ import java.util.Date;
 public class ReplyVO {
 	int replyId;
 	int boardId;
-	int nestedReplyId;
 	String userId;
 	String replyContent;
 	Date replyDateCreated;
+	int nestedReplyId;
 	
 	public ReplyVO() {}
 	
-	public ReplyVO(int replyId, int boardId, int nestedReplyId, String userId, String replyContent,
-			Date replyDateCreated) {
+	public ReplyVO(int replyId, int boardId, String userId, String replyContent, Date replyDateCreated,
+			int nestedReplyId) {
 		this.replyId = replyId;
 		this.boardId = boardId;
-		this.nestedReplyId = nestedReplyId;
 		this.userId = userId;
 		this.replyContent = replyContent;
 		this.replyDateCreated = replyDateCreated;
+		this.nestedReplyId = nestedReplyId;
 	}
-	
+
 	public ReplyVO(int replyId, int boardId, String userId, String replyContent,
 			Date replyDateCreated) {
 		this.replyId = replyId;
@@ -81,8 +81,8 @@ public class ReplyVO {
 
 	@Override
 	public String toString() {
-		return "ReplyVO [replyId=" + replyId + ", boardId=" + boardId + ", nestedReplyId=" + nestedReplyId + ", userId="
-				+ userId + ", replyContent=" + replyContent + ", replyDateCreated=" + replyDateCreated + "]";
+		return "ReplyVO [replyId=" + replyId + ", boardId=" + boardId +  ", userId=" + userId + ", replyContent=" + replyContent +
+				", replyDateCreated=" + replyDateCreated + ", nestedReplyId=" + nestedReplyId + "]";
 	}
 
 

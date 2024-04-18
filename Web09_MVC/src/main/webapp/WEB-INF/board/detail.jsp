@@ -1,13 +1,12 @@
 <%@page import="edu.web.domain.BoardVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.7.1.js">
-	
 </script>
 <title>Insert title here</title>
 </head>
@@ -46,21 +45,25 @@
 			</tr>
 		</tbody>
 	</table>
-	<button
-		onclick="location.href='update.do?boardId=<%=vo.getBoardId()%>'">게시글
-		수정하기</button>
-	<form action="delete.do" Method="post">
-		<input readOnly type="hidden" id="boardId" name="boardId"
-			value="<%=vo.getBoardId()%>"> <input type="submit"
-			value="삭제하기">
-	</form>
+	
+	<c:if test="${vo.userId eq sessionScope.userId }">
+	<button onclick="location.href='update.do?boardId=<%=vo.getBoardId()%>'">게시글 수정하기</button>
+		<form action="delete.do" Method="post">
+			<%-- <input readOnly type="hidden" id="nestedId" name="nestedId" value="${vo.userId }"> --%>
+			<input readOnly type="hidden" id="boardId" name="boardId" value="<%=vo.getBoardId()%>">
+			<input type="submit" value="삭제하기">
+		</form>
+	</c:if>
 	<button onclick="window.location.href='list.do'">돌아가기</button>
-
-	<div style="text-align: center;">
-		<input type="text" id="userId"> <input type="text"
-			id="replyContent">
-		<button id="btnAdd">작성</button>
-	</div>
+	<%-- <input readOnly type="hidden" id="nestedId" name="nestedId" value="${vo.userId }"> --%>
+	<input readOnly type="hidden" id="boardId" name="boardId" value="${vo.boardId }">
+	<c:if test="${not empty sessionScope.userId }">
+		<div style="text-align: center;">
+			<input type="text" id="userId" value="${sessionScope.userId }" readOnly>
+			<input type="text" id="replyContent">
+			<button id="btnAdd"> 댓글 작성</button>
+		</div>
+	</c:if>
 
 	<hr>
 
@@ -89,10 +92,13 @@
 				let boardId = $('#boardId').val();
 				let userId = $('#userId').val();
 				let replyContent = $('#replyContent').val();
+				let nestedId = $('#nestedId').val();
+				console.log(nestedId);
 				let obj = {
 					'boardId' : boardId,
 					'userId' : userId,
-					'replyContent' : replyContent
+					'replyContent' : replyContent,
+					'nestedId' : nestedId
 				};
 				console.log(obj);
 
@@ -117,6 +123,10 @@
 				// 댓글 가져오기위한 게시글 번호
 				var boardId = $('#boardId').val();
 				
+				var sessionId = '${sessionScope.userId }';
+				//console.log(userId);
+				//var sessionUserId = ${sessionScope.userId};
+				//console.log(sessionUserId);
 				// url에 boardId 전송
 				var url = 'replies/all?boardId=' + boardId;
 			
@@ -139,19 +149,34 @@
 						console.log(this);
 						// 프론트엔드의 장바구니와 유사한데 그 이유는 비동기로 처리하기 때문
 						
-						var replyDateCreated = new Date(this.replyDateCreated);
+							
+						let replyDateCreated = new Date(this.replyDateCreated);
+						let disabled = '';
+						let readonly = '';
+						// let nestedId = $('#replyID').val();
+						if(this.userId != sessionId){
+							disabled = 'disabled';
+							readonly = 'readonly';
+						}
+						//if(nestedId == 0){
+						//	nestedId = $('#userId').val();
+						//}
 						
 						list += '<div class="reply_item">'
 							+ '<pre>'
 							+ '<input type="hidden" id="replyId" + value="' + this.replyId +'">'
-							+ this.userId
+							+ this.userId + '이(가)'
 							+ '&nbsp;&nbsp;' // 공백
-							+ '<input type="text" id="replyContent" + value="' + this.replyContent +'">'
-							+ replyDateCreated	
-							+ '<button class="btn_update">수정</button>'
-							+ '<button class="btn_delete">삭제</button>'
+							
+							+ '에게'
+							+ '<input type="text" id="replyContent"' + readonly + 'value="' + this.replyContent +'">'
+							+ replyDateCreated
+							+ '<button class="btn_reply">댓글추가</button>'
+							+ '<button class="btn_update"' + disabled + '>수정</button>'
+							+ '<button class="btn_delete"' + disabled + '>삭제</button>'	
 							+ '</pre>'
 							+ '</div>';
+						
 					}); // end each()
 					
 						$('#replies').html(list);
@@ -213,9 +238,40 @@
 						alert('댓글 삭제 성공');							
 						getAllReplies();
 						}
-					}
-				});
-			});
+					} // end success
+				}); // end ajax
+			}); // end delete
+			
+			// 누르면 입력창이 뜨고 추가 버튼을 누르면 입력이 된다. 여기서 컨테이너로 요청할 필요는 없고 그냥 요소 추가만 하면 끝
+			
+			$('#replies').on('click', '.reply_item .btn_reply', function(){
+				// this = 클릭한 요소 정보
+				console.log(this);
+				
+				// 선택된 댓글의 replyId, replyContent 값을 저장
+				// prevAll() : 선택된 노드 이전에 있는모든 형제 노드를 접근
+				var nestedId = $(this).prevAll('#replyId').val();
+				var replyContent = $(this).prevAll('#replyContent').val();
+				console.log("선택된 댓글 번호 : " + replyId + ", 댓글 내용 : " + replyContent);
+				
+				// ajax로 데이터 전송해 수정기능 수행후 결과를 리턴하는 코드
+				//ajax 요청
+				$.ajax({
+					type : 'POST',
+					url : 'replies/update',
+					data : {
+						'replyId' : replyId,
+						'replyContent' : replyContent
+					},
+					success : function(result){
+						console.log(result);
+					if(result == 'success'){
+						alert('댓글 수정 성공');							
+						getAllReplies();
+						}
+					}					
+				}); // end ajax()
+			}); // end replies.on()
 		}); // end document($document.ready(function(){ 내용 });
 	</script>
 

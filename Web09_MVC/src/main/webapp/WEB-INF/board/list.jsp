@@ -44,8 +44,9 @@ li {
 		%>
 		<tbody>
 			<c:forEach var="vo" items="${vo }">
-				<tr onclick="location.href='detail.do?boardId=${vo.boardId }'">
 					<!-- 내가 한방식 -->
+				<tr onclick="location.href='detail.do?boardId=${vo.boardId }'">
+					<!-- 강사님 -->
 					<td>${vo.boardId }</td>
 					<td><a href="detail.do?boardId=${vo.boardId }">${vo.boardTitle }</a></td>
 					<td>${vo.userId }</td>
@@ -67,7 +68,12 @@ li {
 		</c:if>
 	</ul>
 	<a href="register.do"><input type="button" value="게시글 작성"></a>
-	<button onclick="location.href='login.do'">로그인</button>
+	<c:if test="${empty sessionScope.userId }">
+		<button onclick="location.href='login.login'">로그인</button>
+	</c:if>
+	<c:if test="${not empty sessionScope.userId }">
+		<button onclick="location.href='logout.login'">로그아웃</button>
+	</c:if>
 </body>
 </html>
 

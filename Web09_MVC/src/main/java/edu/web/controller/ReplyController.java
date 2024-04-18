@@ -65,7 +65,7 @@ public class ReplyController extends HttpServlet {
     private void update(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
     	int replyId = Integer.parseInt(req.getParameter("replyId"));
     	String replyContent = req.getParameter("replyContent");
-    	ReplyVO vo = new ReplyVO(replyId, 0, "", replyContent, null);
+    	ReplyVO vo = new ReplyVO(replyId, 0, "", replyContent, null, 0);
     	int result = dao.update(vo);
     	if(result == 1) {
     		res.getWriter().append("success");
@@ -76,7 +76,7 @@ public class ReplyController extends HttpServlet {
     // 조회된 댓글 리스트를 json 형태로 변경하여 클라이언트에 전송
     private void replyList(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		System.out.println("replyList()");
-	
+		System.out.println(req.getParameter("boardId"));
 		int boardId = Integer.parseInt((String) req.getParameter("boardId"));
 		List<ReplyVO> list = dao.select(boardId);
 		JSONArray jsonArray = new JSONArray();
@@ -88,6 +88,7 @@ public class ReplyController extends HttpServlet {
 			jsonObject.put("userId", vo.getUserId());
 			jsonObject.put("replyContent", vo.getReplyContent());
 			jsonObject.put("replyDateCreated", vo.getReplyDateCreated().toString());
+			jsonObject.put("nestedId", vo.getNestedReplyId());
 			jsonArray.add(jsonObject);			
 		}
 		// 확인
@@ -109,8 +110,9 @@ public class ReplyController extends HttpServlet {
 			int boardId = Integer.parseInt((String) jsonObject.get("boardId"));
 			String userId = (String) jsonObject.get("userId");
 			String replyContent = (String) jsonObject.get("replyContent");
+			int nestedId = Integer.parseInt((String) jsonObject.get("nestedId"));
 			
-			ReplyVO vo = new ReplyVO(0, boardId, 0, userId, replyContent, null);
+			ReplyVO vo = new ReplyVO(0, boardId, userId, replyContent, null, nestedId);
 			int result = dao.insert(vo);
 			if(result == 1) {
 				res.getWriter().append("success");

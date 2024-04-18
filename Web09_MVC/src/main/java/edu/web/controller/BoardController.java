@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,7 +30,6 @@ public class BoardController extends HttpServlet {
 	private static final String DELETE = "delete";
 	private static final String EXTENSION = ".jsp";
 	private static final String SERVER_EXTENSION = ".do";
-	private static final String MEMBER_SERVER_EXTENSION = ".login";
 	private BoardDAO dao;
 	
 	
@@ -50,7 +50,7 @@ public class BoardController extends HttpServlet {
 
 		if (reqURI.contains(LIST + SERVER_EXTENSION)) {
 			System.out.println("list 호출 확인");
-			list(req, res);
+				list(req, res);
 		} else if (reqURI.contains(REGISTER + SERVER_EXTENSION)) {
 			System.out.println("register 호출 확인");
 			if (reqMethod.equals("GET")) {
@@ -73,12 +73,12 @@ public class BoardController extends HttpServlet {
 			if (reqMethod.equals("POST")) {
 				deletePOST(req, res);
 			} // end delete
-		
-		} else if (reqURI.contains(LOGIN + SERVER_EXTENSION)) {
-			if (reqMethod.equals("GET")) {
-				res.sendRedirect(LOGIN + EXTENSION);
-			}
-		}
+		} 
+//		else if (reqURI.contains(LOGIN + SERVER_EXTENSION)) {
+//			if (reqMethod.equals("GET")) {
+//				res.sendRedirect(LOGIN + EXTENSION);
+//			}
+//		}
 	} // end service()
 
 	
@@ -88,46 +88,54 @@ public class BoardController extends HttpServlet {
 	// 전체 게시판 내용(list)을 DB에서 가져오고, 그 데이터를 list.jsp 페이지에 전송
 	private void list(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		System.out.println("list()");
-//		List<BoardVO> vo = boardDao.select(); // list로 변경해야함
-		// 현재 페이지를 저장하기 위한 변수 이 시점의 page값은 null
-		String page = req.getParameter("page"); 
-		// page와 한 페이지에 최대로 나타낼 기본값이 세팅되어있는 기본 생성자로 객체 생성 
-		PageCriteria criteria = new PageCriteria();
-		if(page != null) { 
-			// 변수 page값이 null이 아니라면 criteria객체에 현재 페이지값을 저장 
-			criteria.setPage(Integer.parseInt(page));		
-		}
+		 
+//			List<BoardVO> vo = boardDao.select(); // list로 변경해야함
+			// 현재 페이지를 저장하기 위한 변수 이 시점의 page값은 null
+			String page = req.getParameter("page"); 
+			// page와 한 페이지에 최대로 나타낼 기본값이 세팅되어있는 기본 생성자로 객체 생성 
+			PageCriteria criteria = new PageCriteria();
+			if(page != null) { 
+				// 변수 page값이 null이 아니라면 criteria객체에 현재 페이지값을 저장 
+				criteria.setPage(Integer.parseInt(page));		
+			}
+			
+			List<BoardVO> vo = dao.select(criteria);
+			String path = BOARD_URL + LIST + EXTENSION;
+			RequestDispatcher dispatcher = req.getRequestDispatcher(path);
+			req.setAttribute("vo", vo);
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCriteria(criteria); // 기본값 
+			pageMaker.setTotalCount(dao.getTotalCount());
+			pageMaker.setPageData();
+			System.out.println("전체 게시글 수  = " + pageMaker.getTotalCount());
+			System.out.println("현재 선택된 페이지 = " + criteria.getPage());
+			System.out.println("한 페이지 당 게시글 수 = " + pageMaker.getNumsOfPageLinks());
+			System.out.println("시작 페이지 링크 번호 = " + pageMaker.getStartPageNo());
+			System.out.println("끝 페이지 링크 번호 = " + pageMaker.getEndPageNo());
+			req.setAttribute("pageMaker", pageMaker);
+			dispatcher.forward(req, res);
 		
-		List<BoardVO> vo = dao.select(criteria);
-		String path = BOARD_URL + LIST + EXTENSION;
-		RequestDispatcher dispatcher = req.getRequestDispatcher(path);
-		req.setAttribute("vo", vo);
-		PageMaker pageMaker = new PageMaker();
-		pageMaker.setCriteria(criteria); // 기본값 
-		pageMaker.setTotalCount(dao.getTotalCount());
-		pageMaker.setPageData();
-		System.out.println("전체 게시글 수  = " + pageMaker.getTotalCount());
-		System.out.println("현재 선택된 페이지 = " + criteria.getPage());
-		System.out.println("한 페이지 당 게시글 수 = " + pageMaker.getNumsOfPageLinks());
-		System.out.println("시작 페이지 링크 번호 = " + pageMaker.getStartPageNo());
-		System.out.println("끝 페이지 링크 번호 = " + pageMaker.getEndPageNo());
-		req.setAttribute("pageMaker", pageMaker);
-		dispatcher.forward(req, res);
 	} // end list()
 
 	private void registerGET(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		System.out.println("registerGET()");
 //		String path = BOARD_URL + REGISTER + EXTENSION;
-		System.out.println("여기?");
-		HttpSession session = req.getSession(false);
-		System.out.println("요깅?");
-		if (session.getAttribute("userId") != null) {
+		HttpSession session = req.getSession();
+		String userId = (String) session.getAttribute("userId");
+		if (userId != null) {
 			System.out.println(session.getAttribute("userId"));
-			System.out.println("체크통과?");
-			String path = REGISTER + SERVER_EXTENSION;
-	        res.sendRedirect(path); 
+			String path = BOARD_URL + REGISTER + EXTENSION;
+			RequestDispatcher dispatcher = req.getRequestDispatcher(path);
+			dispatcher.forward(req, res);
+//	        res.sendRedirect(path); 
 	        return;
-	    } else {
+	    } else { // 로그아웃 상태
+	    	// 너프한 코드
+	    	// 쿠키에 targetURL 정보를 저장
+	    	// targetURL = register.do
+//	    	Cookie urlCookie = new Cookie("tergetURL", REGISTER + SERVER_EXTENSION);
+//	    	res.addCookie(urlCookie);
+//	    	res.sendRedirect("login.go?targetURL=" + REGISTER + SERVER_EXTENSION);
 	    	String path = LOGIN + EXTENSION;
 	        res.sendRedirect(path);
 	    }
@@ -142,19 +150,13 @@ public class BoardController extends HttpServlet {
 		String userId = req.getParameter("userId");
 		System.out.println("title : " + title + ", content : " + content + ", userId : " + userId);
 		BoardVO vo = new BoardVO(0, title, content, userId, null);
-		HttpSession session = req.getSession(false);
+//		HttpSession session = req.getSession(false);
 		vo.setBoardTitle(title);
-		vo.setBoardContent(content);
-		vo.setUserId((String) session.getAttribute(userId));
-		if(vo.getUserId()==null) {
-			String msg = "게시글 등록에 실패했습니다.";
-			req.setAttribute("msg", msg);
-			res.sendRedirect(MAIN + EXTENSION);
-		} else {
-			int result = dao.insert(vo);
-			if (result == 1) {
-				res.sendRedirect(path);
-			}
+//		vo.setBoardContent(content);
+//		vo.setUserId((String) session.getAttribute(userId));
+		int result = dao.insert(vo);
+		if (result == 1) {
+			res.sendRedirect(path);
 		}
 
 	}// end registerPOST()
@@ -164,9 +166,13 @@ public class BoardController extends HttpServlet {
 		// userID를 이용해 조회 데이터 전송
 		System.out.println("detail()");
 		String path = BOARD_URL + DETAIL + EXTENSION; // BOARD_URL 제거
-		HttpSession session = req.getSession(false);
+		HttpSession session = req.getSession();
 //		session.removeAttribute("reqURIF");
-		int boardId = Integer.parseInt((String) session.getAttribute("boardId"));
+		String base = (String) session.getAttribute("boardId");
+//		String base = req.getParameter("boardId");
+		System.out.println(base);
+		System.out.println(base);
+		int boardId = Integer.parseInt(base);
 		BoardVO vo = dao.select(boardId);
 		RequestDispatcher dispatcher = req.getRequestDispatcher(path);
 		req.setAttribute("vo", vo);
